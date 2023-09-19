@@ -25,16 +25,16 @@ INSERT INTO SBRP_DB.staff VALUES
 
 -- create role_skill table
 create table SBRP_DB.role_skill
-(Role_Name varchar(50) not null,
+(Role_Name varchar(20) not null,
 Skill_Name varchar(50) not null,
 constraint role_skill_pk primary key (Role_Name, Skill_Name));
 
 -- insert data into role_skill table
 INSERT INTO SBRP_DB.role_skill VALUES
-('Engineering Operation Planning Team', 'Electrical/Mechanical Engineering'),
-('Sales Account Manager', 'Accounting'),
-('Sales Account Manager', 'Marketing'),
-('Sales Account Manager', 'Customer Relationship Management'),
+('Engin. Op. Planning', 'Electrical/Mechanical Engineering'),
+('Account Manager', 'Accounting'),
+('Account Manager', 'Marketing'),
+('Account Manager', 'Customer Relationship Management'),
 ('IT Team', 'Java'),
 ('IT Team', 'C++'),
 ('IT Team', 'Python'),

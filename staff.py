@@ -30,7 +30,6 @@ class Staff(db.Model):
         self.phone = phone
         self.biz_address = biz_address
         self.sys_role = sys_role
-        
 
     def json(self):
         return {"StaffID": self.staff_id,
@@ -43,6 +42,57 @@ class Staff(db.Model):
                 "SystemRole": self.sys_role
                 }
     
+class Staff_Roles(db.Model):
+    __tablename__ = 'staff_roles'
+    staff_id = db.Column(db.Integer, primary_key= True)
+    staff_role = db.Column(db.Integer, primary_key= True)
+    role_type = db.Column(db.String(20), nullable=False)
+    sr_status = db.Column(db.String(20), nullable=False)
+
+    def __init__(self, staff_id, staff_role, role_type, sr_status):
+        self.staff_id = staff_id
+        self.staff_role = staff_role
+        self.role_type = role_type
+        self.sr_status = sr_status
+
+    def json(self):
+        return {"StaffID": self.staff_id,
+                "RoleID": self.staff_role,
+                "RoleType": self.role_type,
+                "Status": self.sr_status
+                }
+    
+class Staff_Skills(db.Model):
+    __tablename__ = 'staff_skill'
+    staff_id = db.Column(db.Integer, primary_key= True)
+    skill_id = db.Column(db.Integer, primary_key= True)
+    ss_status = db.Column(db.String(20), nullable=False)
+
+    def __init__(self, staff_id, skill_id, ss_status):
+        self.staff_id = staff_id
+        self.skill_id = skill_id
+        self.ss_status = ss_status
+
+    def json(self):
+        return {"StaffID": self.staff_id,
+                "SkillID": self.skill_id,
+                "Status": self.ss_status
+                }
+    
+class Staff_RO(db.Model):
+    __tablename__ = 'staff_reporting_officer'
+    staff_id = db.Column(db.Integer, primary_key= True)
+    ro_id = db.Column(db.Integer, primary_key= True)
+
+    def __init__(self, staff_id, ro_id):
+        self.staff_id = staff_id
+        self.ro_id = ro_id
+
+    def json(self):
+        return {"StaffID": self.staff_id,
+                "ROID": self.ro_id,
+                }
+
 # Retrieves every staff in the database
 @app.route("/staff")
 def get_all_staff():
@@ -80,7 +130,105 @@ def find_by_staff_id(staff_id):
             "message": "Staff not found."
         }
     ), 404
-        
+
+# Retrieves roles that a staff has based on staff_id
+@app.route("/staff/role/<int:staff_id>")
+def find_roles_by_staff_id(staff_id):
+    staff_roles = Staff_Roles.query.filter_by(staff_id=staff_id).all()
+    if staff_roles:
+        return jsonify(
+            {
+                "code": 200,
+                "data": {
+                    "staff_roles": [staff_role.json() for staff_role in staff_roles]
+                }
+            }
+        )
+    return jsonify(
+        {
+            "code": 404,
+            "message": "Staff roles not found."
+        }
+    ), 404
+
+# Retrieves skills that a staff has based on staff_id
+@app.route("/staff/skillsofstaff/<int:staff_id>")
+def find_skills_by_staff_id(staff_id):
+    staff_skills = Staff_Skills.query.filter_by(staff_id=staff_id).all()
+    if staff_skills:
+        return jsonify(
+            {
+                "code": 200,
+                "data": {
+                    "staff_skills": [staff_skill.json() for staff_skill in staff_skills]
+                }
+            }
+        )
+    return jsonify(
+        {
+            "code": 404,
+            "message": "Staff skills not found."
+        }
+    ), 404
+
+# Retrieves all staff that possess a specific skill based on skill_id
+@app.route("/staff/staffwithskill/<int:skill_id>")
+def find_staff_by_skill_id(skill_id):
+    staff_skills = Staff_Skills.query.filter_by(skill_id=skill_id).all()
+    if staff_skills:
+        return jsonify(
+            {
+                "code": 200,
+                "data": {
+                    "staff_skills": [staff_skill.json() for staff_skill in staff_skills]
+                }
+            }
+        )
+    return jsonify(
+        {
+            "code": 404,
+            "message": "No staff with specified skill found."
+        }
+    ), 404
+
+# Retrieves the reporting officer of a staff based on staff_id
+@app.route("/staff/officerofstaff/<int:staff_id>")
+def find_ro_by_staff_id(staff_id):
+    staff_ro = Staff_RO.query.filter_by(staff_id=staff_id).first()
+    if staff_ro:
+        return jsonify(
+            {
+                "code": 200,
+                "data": staff_ro.json()
+            }
+        )
+    return jsonify(
+        {
+            "code": 404,
+            "message": "Reporting Officer not found."
+        }
+    ), 404
+
+# Retrieves the staff that report to a reporting officer based on ro_id
+@app.route("/staff/staffofofficer/<int:staff_id>")
+def find_staff_by_ro_id(staff_id):
+    staff_ro = Staff_RO.query.filter_by(ro_id=staff_id).all()
+    if staff_ro:
+        return jsonify(
+            {
+                "code": 200,
+                "data": {
+                    "staff_ro": [staff_ro.json() for staff_ro in staff_ro]
+                }
+            }
+        )
+    return jsonify(
+        {
+            "code": 404,
+            "message": "Staff not found."
+        }
+    ), 404
+
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0",port=5000,debug=True)

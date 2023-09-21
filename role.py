@@ -29,6 +29,20 @@ class Role(db.Model):
                 "RoleDescription": self.role_desc,
                 "RoleStatus": self.role_status
                 }
+    
+class Role_Skills(db.Model):
+    __tablename__ = 'role_skill'
+    role_id = db.Column(db.Integer, primary_key= True)
+    skill_id = db.Column(db.Integer, primary_key= True)
+
+    def __init__(self, role_id, skill_id):
+        self.role_id = role_id
+        self.skill_id = skill_id
+
+    def json(self):
+        return {"RoleID": self.role_id,
+                "SkillID": self.skill_id
+                }
 
 # Retrieves every role in the database
 @app.route("/role")
@@ -68,6 +82,25 @@ def find_by_role_id(role_id):
         }
     ), 404
 
+# Retrieves skills that a role requires based on role_id
+@app.route("/role/skill/<int:role_id>")
+def find_skills_by_role_id(role_id):
+    role_skill_list = Role_Skills.query.filter_by(role_id=role_id).all()
+    if len(role_skill_list):
+        return jsonify(
+            {
+                "code": 200,
+                "data": {
+                    "role_skill": [role_skill.json() for role_skill in role_skill_list]
+                }
+            }
+        )
+    return jsonify(
+        {
+            "code": 404,
+            "message": "Role Skill not found."
+        }
+    ), 404
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0",port=5001,debug=True)

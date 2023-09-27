@@ -4,7 +4,7 @@ from flask_cors import CORS
 
 app = Flask(__name__)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root@localhost:3306/sbrp_db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root@localhost:3306/staff_db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 CORS(app) 
@@ -228,6 +228,44 @@ def find_staff_by_ro_id(staff_id):
             "message": "Staff not found."
         }
     ), 404
+
+# Sets the status of a certain skill of a staff member based on staff_id and skill_id
+@app.route("/staff/setskillstatus/<int:staff_id>/<int:skill_id>/<ss_status>", methods=['PUT'])
+def set_skill_status(staff_id, skill_id, ss_status):
+    staff_skill = Staff_Skills.query.filter_by(staff_id=staff_id, skill_id=skill_id).first()
+    if staff_skill:
+        if ss_status not in ['active', 'unverified', 'in-progress']:
+            return jsonify(
+                {
+                    "code": 400,
+                    "data": {
+                        "staff_id": staff_id,
+                        "skill_id": skill_id,
+                        "ss_status": ss_status
+                    },
+                    "message": "Invalid status."
+                }
+            ), 400
+        else:
+            staff_skill.ss_status = ss_status
+            db.session.commit()
+            return jsonify(
+                {
+                    "code": 200,
+                    "data": staff_skill.json()
+                }
+            )
+    return jsonify(
+        {
+            "code": 404,
+            "data": {
+                "staff_id": staff_id,
+                "skill_id": skill_id,
+                "ss_status": ss_status
+            },
+            "message": "Staff skill not found."
+        }
+    )
 
 
 if __name__ == '__main__':

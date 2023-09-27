@@ -11,61 +11,74 @@ CORS(app)
 
 
 class Role_Listing(db.Model):
-    __tablename__ = 'role_listing'
-    listing_id = db.Column(db.Integer, primary_key= True)
-    role_id = db.Column(db.Integer, nullable=False)
-    dept = db.Column(db.String(50), nullable=False)
-    country = db.Column(db.String(50), nullable=False)
-    closing_date = db.Column(db.DateTime, nullable=False)
-    career_level = db.Column(db.String(50), nullable=False)
-    hiring_manager_id = db.Column(db.Integer, nullable=False)
-    responsibilities = db.Column(db.String(50000), nullable=False)
+    __tablename__ = 'role_listings'
+    Role_Listing_ID = db.Column(db.Integer, primary_key= True)
+    Role_ID = db.Column(db.Integer, nullable=False)
+    Role_Listing_Desc = db.Column(db.String(50000), nullable=False)
+    Role_Listing_Source = db.Column(db.Integer, primary_key= True)
+    Role_Listing_Open = db.Column(db.Date, nullable=False)
+    Role_Listing_Close = db.Column(db.Date, nullable=False)
+    Role_Listing_Creator = db.Column(db.Integer, nullable=False)
+    Role_Listing_ts_create = db.Column(db.DateTime, nullable=False)
+    Country = db.Column(db.String(50), nullable=False)
+    Career_Level = db.Column(db.String(50), nullable=False)
+    Role_Listing_Updater = db.Column(db.Integer, nullable=False)
+    Role_Listing_ts_update = db.Column(db.DateTime, nullable=False)
 
-    def __init__(self, listing_id, role_id, dept, country, closing_date, career_level, hiring_manager_id, responsibilities):
-        self.listing_id = listing_id
-        self.role_id = role_id
-        self.dept = dept
-        self.country = country
-        self.closing_date = closing_date
-        self.career_level = career_level
-        self.hiring_manager_id = hiring_manager_id
-        self.responsibilities = responsibilities
+    def __init__(self, Role_Listing_ID, Role_ID, Role_Listing_Desc, Role_Listing_Source, Role_Listing_Open, Role_Listing_Close, Role_Listing_Creator, Role_Listing_ts_create, Country, Career_Level, Role_Listing_Updater, Role_Listing_ts_update):
+        self.Role_Listing_ID = Role_Listing_ID
+        self.Role_ID = Role_ID
+        self.Role_Listing_Description = Role_Listing_Desc
+        self.Role_Listing_Source = Role_Listing_Source
+        self.Role_Listing_Open = Role_Listing_Open
+        self.Role_Listing_Close = Role_Listing_Close
+        self.Role_Listing_Creator = Role_Listing_Creator
+        self.Role_Listing_ts_create = Role_Listing_ts_create
+        self.Country = Country
+        self.Career_Level = Career_Level
+        self.Role_Listing_Updater = Role_Listing_Updater
+        self.Role_Listing_ts_update = Role_Listing_ts_update
 
     def json(self):
-        return {"ListingID": self.listing_id,
-                "RoleID": self.role_id,
-                "Department": self.dept,
-                "Country": self.country,
-                "ClosingDate": self.closing_date,
-                "CareerLevel": self.career_level,
-                "HiringManagerID": self.hiring_manager_id,
-                "Responsibilities": self.responsibilities
+        return {"RoleListingID": self.Role_Listing_ID,
+                "RoleID": self.Role_ID,
+                "RoleListingDescription": self.Role_Listing_Desc,
+                "RoleListingSource": self.Role_Listing_Source,
+                "RoleListingOpen": self.Role_Listing_Open,
+                "RoleListingClose": self.Role_Listing_Close,
+                "RoleListingCreator": self.Role_Listing_Creator,
+                "RoleListingTimestampCreate": self.Role_Listing_ts_create,
+                "Country": self.Country,
+                "CareerLevel": self.Career_Level,
+                "RoleListingUpdater": self.Role_Listing_Updater,
+                "RoleListingTimestampUpdate": self.Role_Listing_ts_update
                 }
 
 # Retrieves every role_listing in the database
 @app.route("/role_listing")
 def get_all_role_listing():
-    role_listing_list = Role_Listing.query.all()
-    if len(role_listing_list):
+    role_listinglist = Role_Listing.query.all()
+    if len(role_listinglist):
         return jsonify(
             {
                 "code": 200,
                 "data": {
-                    "role_listing": [role_listing.json() for role_listing in role_listing_list]
+                    "role_listing": [role_listing.json() for role_listing in role_listinglist]
                 }
             }
         )
     return jsonify(
         {
             "code": 404,
-            "message": "There are no role_listing."
+            "message": "There are no role_listings."
         }
     ), 404
+
 
 # Retrieves a role_listing based on listing_id
 @app.route("/role_listing/<int:listing_id>")
 def find_by_listing_id(listing_id):
-    role_listing = Role_Listing.query.filter_by(listing_id=listing_id).first()
+    role_listing = Role_Listing.query.filter_by(Role_Listing_ID=listing_id).first()
     if role_listing:
         return jsonify(
             {
@@ -83,13 +96,13 @@ def find_by_listing_id(listing_id):
 # Retrieves role listings based on role_id
 @app.route("/role_listing/role/<int:role_id>")
 def find_by_role_id(role_id):
-    role_listing_list = Role_Listing.query.filter_by(role_id=role_id).all()
-    if len(role_listing_list):
+    role_listing = Role_Listing.query.filter_by(Role_ID=role_id).all()
+    if len(role_listing):
         return jsonify(
             {
                 "code": 200,
                 "data": {
-                    "role_listing": [role_listing.json() for role_listing in role_listing_list]
+                    "role_listing": [role_listing.json() for role_listing in role_listing]
                 }
             }
         )
@@ -99,6 +112,7 @@ def find_by_role_id(role_id):
             "message": "Role Listing not found."
         }
     ), 404
+
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0",port=5003,debug=True)

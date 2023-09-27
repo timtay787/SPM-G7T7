@@ -4,7 +4,7 @@ from flask_cors import CORS
 
 app = Flask(__name__)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root@localhost:3306/sbrp_db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root@localhost:3306/skill_db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 CORS(app) 
@@ -61,6 +61,41 @@ def find_by_skill_id(skill_id):
     return jsonify(
         {
             "code": 404,
+            "message": "Skill not found."
+        }
+    ), 404
+
+# Sets the status of a skill based on skill_id
+@app.route("/skill/setstatus/<int:skill_id>/<status>", methods=['PUT'])
+def update_skill_status(skill_id, status):
+    skill = Skill.query.filter_by(skill_id=skill_id).first()
+    if skill:
+        if status not in ['active', 'inactive']:
+            return jsonify(
+                {
+                    "code": 400,
+                    "data": {
+                        "skill_id": skill_id,
+                        "status": status
+                    },
+                    "message": "Invalid status."
+                }
+            ), 400
+        else:
+            skill.skill_status = status
+            db.session.commit()
+            return jsonify(
+                {
+                    "code": 200,
+                    "data": skill.json()
+                }
+            )
+    return jsonify(
+        {
+            "code": 404,
+            "data": {
+                "skill_id": skill_id
+            },
             "message": "Skill not found."
         }
     ), 404

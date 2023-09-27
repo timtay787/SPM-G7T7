@@ -10,30 +10,33 @@ db = SQLAlchemy(app)
 CORS(app) 
 
 
-class Role_Listing(db.Model):
-    __tablename__ = 'application'
-    application_id = db.Column(db.Integer, primary_key= True)
+class Role_Application(db.Model):
+    __tablename__ = 'role_application'
+    role_app_id = db.Column(db.Integer, primary_key= True)
+    role_listing_id = db.Column(db.Integer, nullable=False)
     staff_id = db.Column(db.Integer, nullable=False)
-    listing_id = db.Column(db.Integer, nullable=False)
-    status = db.Column(db.String(20), nullable=False)
+    role_app_status = db.Column(db.String(20), nullable=False)
+    role_app_ts_create = db.Column(db.DateTime, nullable=False)
 
-    def __init__(self, application_id, staff_id, listing_id, status):
-        self.application_id = application_id
+    def __init__(self, role_app_id, role_listing_id, staff_id, role_app_status, role_app_ts_create):
+        self.role_app_id = role_app_id
+        self.role_listing_id = role_listing_id
         self.staff_id = staff_id
-        self.listing_id = listing_id
-        self.status = status
+        self.role_app_status = role_app_status
+        self.role_app_ts_create = role_app_ts_create
 
     def json(self):
-        return {"ApplicationID": self.application_id,
+        return {"RoleApplicationID": self.role_app_id,
+                "RoleListingID": self.role_listing_id,
                 "StaffID": self.staff_id,
-                "ListingID": self.listing_id,
-                "Status": self.status
+                "RoleApplicationStatus": self.role_app_status,
+                "RoleApplicationTimestampCreate": self.role_app_ts_create
                 }
 
 # Retrieves every application in the database
-@app.route("/application")
+@app.route("/role_application")
 def get_all_application():
-    applicationlist = Role_Listing.query.all()
+    applicationlist = Role_Application.query.all()
     if len(applicationlist):
         return jsonify(
             {
@@ -50,10 +53,10 @@ def get_all_application():
         }
     ), 404
 
-# Retrieves a application based on application_id
-@app.route("/application/<int:application_id>")
+# Retrieves an application based on application_id
+@app.route("/role_application/<int:application_id>")
 def find_by_application_id(application_id):
-    application = Role_Listing.query.filter_by(application_id=application_id).first()
+    application = Role_Application.query.filter_by(role_app_id=application_id).first()
     if application:
         return jsonify(
             {
@@ -69,9 +72,9 @@ def find_by_application_id(application_id):
     ), 404
 
 # Retrieves a application based on staff_id
-@app.route("/application/staff/<int:staff_id>")
+@app.route("/role_application/staff/<int:staff_id>")
 def find_by_staff_id(staff_id):
-    application = Role_Listing.query.filter_by(staff_id=staff_id).first()
+    application = Role_Application.query.filter_by(staff_id=staff_id).first()
     if application:
         return jsonify(
             {
@@ -86,15 +89,17 @@ def find_by_staff_id(staff_id):
         }
     ), 404
 
-# Retrieves a application based on listing_id
-@app.route("/application/listing/<int:listing_id>")
+# Retrieves applications based on listing_id
+@app.route("/role_application/listing/<int:listing_id>")
 def find_by_listing_id(listing_id):
-    application = Role_Listing.query.filter_by(listing_id=listing_id).first()
+    application = Role_Application.query.filter_by(role_listing_id=listing_id).all()
     if application:
         return jsonify(
             {
                 "code": 200,
-                "data": application.json()
+                "data": {
+                    "application": [application.json() for application in application]
+                }
             }
         )
     return jsonify(

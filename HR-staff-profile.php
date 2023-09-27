@@ -82,12 +82,12 @@
         <div class="content-wrapper">
           <div class="row">
 
-          <div class="col-md-8 grid-margin stretch-card">
+            <div class="col-md-8 grid-margin stretch-card">
               <div class="card">
                 <div class="row">
                   <div class="col-md-4">
                     <div class="card-body">
-                    <h4 class="card-title">General Information</h4>
+                    <h4 class="card-title">Staff Information</h4>
                     <div class="template-demo d-flex justify-content-between flex-nowrap">
                       <img src="images/faces/profile.png" style="border-radius: 100%; max-width: 100%; height: auto;">
                     </div>
@@ -99,6 +99,12 @@
                       
                       <div class="table-responsive">
                         <table class="table">
+
+                          <!-- staff.py : Retrieves a staff based on staff_id -->
+                          <tr>
+                            <th>Staff ID</th>
+                            <td>003</td>
+                          </tr>
                           <tr>
                             <th>First Name</th>
                             <td>Megan</td>
@@ -108,16 +114,16 @@
                             <td>Tan</td>
                           </tr>
                           <tr>
-                            <th>Current Department</th>
-                            <td>IT</td>
-                          </tr>
-                          <tr>
-                            <th>Country</th>
-                            <td>Malaysia</td>
-                          </tr>
-                          <tr>
                             <th>Email Address</th>
                             <td>megantan@gmail.com</td>
+                          </tr>
+                          <tr>
+                            <th>Phone Number</th>
+                            <td>+65 1234 5680</td>
+                          </tr>
+                          <tr>
+                            <th>Business Address</th>
+                            <td>81 VICTORIA STREET, SINGAPORE 123456</td>
                           </tr>
                         </table>
                       </div>
@@ -127,10 +133,42 @@
                 <div class = "row">
                   <div class="col-md-12">
                     <div class="card-body">
-                      <h6> About Me </h4>
+                    <h4 class="card-title"> Current Role </h4>
+                      
+                      <div class="table-responsive">
+                        <table class="table">
+
+                          <!-- staff.py : Retrieves the reporting officer of a staff based on staff_id -->
+                          <tr>
+                            <th>Reporting Manager</th>
+                            <td>Daniel Heng</td>
+                          </tr>
+                          <!-- staff.py : Retrieves the department of staff based on staff_id (need microservice for this)-->
+                          <tr>
+                            <th>Department</th>
+                            <td>IT</td>
+                          </tr>
+                          <!-- staff.py : Retrieves roles that a staff has based on staff_id -->
+                          <tr>
+                            <th>Role(s)</th>
+                            <td>Information Technology Team [Primary]</td>
+                          </tr>
+                          <tr>
+                            <th> </th>
+                            <td> Data Analyst [Secondary]</td>
+                          </tr>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class = "row">
+                  <div class="col-md-12">
+                    <div class="card-body">
+                      <h4 class="card-title">Staff Information</h4>
                       <p>Hi, I'm Megan, and I'm currently an IT analyst with over 8 years of professional experience in the tech industry. During my career, I've had the privilege of working on a wide range of IT projects, honing my skills in data analysis, system optimization, and problem-solving. Beyond my work in the IT world, I've developed a personal passion for social media analytics. In my free time, I've delved deep into the intricacies of tracking online trends, audience engagement, and content performance across various social media platforms. This journey has sparked a desire within me to pivot and explore new horizons within the digital landscape.</p>
                       <br>
-                      <button type="button" class="btn btn-primary">Edit</button>
+                      <button type="button" class="btn btn-outline-primary btn-fw">Edit</button>
                     </div>
                   </div>
                 </div>
@@ -140,24 +178,30 @@
             <div class="col-md-4 grid-margin stretch-card">
               <div class="card">
                 <div class="card-body">
-                  <h4 class="card-title">Skills</h4>
-
+                  <!-- staff.py : Retrieves skills that a staff has based on staff_id and status == active -->
+                  <h4 class="card-title">Active Skills</h4>
                   <div class="template-demo">
-                        <button type="button" class="btn btn-outline-primary btn-fw">Word</button>
-                        <button type="button" class="btn btn-outline-primary btn-fw">Powerpoint</button>
-                        <button type="button" class="btn btn-outline-primary btn-fw">Excel</button>
-                        <button type="button" class="btn btn-outline-primary btn-fw">Marketing</button>
-                        <button type="button" class="btn btn-outline-primary btn-fw">Content Creation</button>
-                        <button type="button" class="btn btn-outline-primary btn-fw">Social Media</button>
-                        <button type="button" class="btn btn-outline-primary btn-fw">Sales</button>
-                        <button type="button" class="btn btn-outline-primary btn-fw">Communication</button>
-                        <br>
-                        <br>
-                        <button type="button" class="btn btn-primary">Edit</button>
-                    </div>
+                    <button type="button" class="btn btn-outline-primary btn-fw">C++</button>
+                    <button type="button" class="btn btn-outline-primary btn-fw">Powerpoint</button>
+                    <button type="button" class="btn btn-outline-primary btn-fw">Java</button>
+                    <button type="button" class="btn btn-outline-primary btn-fw">Python</button>
+                    <button type="button" class="btn btn-outline-primary btn-fw">Word</button>
+                    <button type="button" class="btn btn-outline-primary btn-fw">Team Leadership</button>
+                    <button type="button" class="btn btn-outline-primary btn-fw">Communication</button>
+                  </div>
+                  <!-- staff.py : Retrieves skills that a staff has based on staff_id and status == inactive -->
+                  <h1 class="card-title">   </h1>
+                  <h1 class="card-title">   </h1>
+                  <h4 class="card-title">Inactive Skills</h4>
+                  <div class="template-demo">
+                    <button type="button" class="btn btn-outline-primary btn-fw">Marketing</button>
+                    <button type="button" class="btn btn-outline-primary btn-fw">Content Creation</button>
+                    <button type="button" class="btn btn-outline-primary btn-fw">Social Media</button>
+                  </div>
                 </div>
               </div>
             </div>
+          <!-- do we need this -->
             <div class="col-12 grid-margin stretch-card">
               <div class="card">
                   <div class="card-body">

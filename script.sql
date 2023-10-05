@@ -231,8 +231,6 @@ Role_Listing_Open date not null,
 Role_Listing_Close date not null,
 Role_Listing_Creator int not null,
 Role_Listing_ts_create timestamp default current_timestamp,
-
-
 Country varchar(50) not null,
 Career_Level ENUM('Entry', 'Intermediate', 'First-level Mgmt', 'Middle-level Mgmt', 'Senior Mgmt') not null,
 Role_Listing_Updater int,
@@ -243,6 +241,19 @@ INSERT INTO role_listing_DB.role_listings VALUES
 (001, 002, 'Responsibilities for this role include:', 006, '2023-09-01', '2024-02-01', 003, timestamp("2023-09-01"), 'Malaysia', 'Entry', 003, timestamp("2023-09-05")),
 (002, 014, 'Responsibilities for this role include:', 005, '2023-09-01', '2024-02-01', 003, timestamp("2023-09-01"), 'Malaysia', 'Entry', 003, timestamp("2023-09-02")),
 (003, 015, 'Responsibilities for this role include:', 008, '2023-09-01', '2024-02-01', 003, timestamp("2023-09-01"), 'Malaysia', 'Entry', 000, '');
+
+-- create candidate table
+create table role_listing_DB.candidates
+(candidate_id int not null,
+role_listing_id int not null,
+constraint candidate_pk primary key (candidate_id, role_listing_id),
+constraint candidate_fk foreign key (role_listing_id) references role_listings(Role_Listing_ID));
+
+-- insert data into candidates table
+INSERT INTO role_listing_DB.candidates VALUES
+(001, 002),
+(002, 001),
+(003, 001);
 
 
 -- create application_DB

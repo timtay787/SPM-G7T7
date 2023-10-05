@@ -1,6 +1,8 @@
 from flask import Flask, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import func
 from flask_cors import CORS
+from datetime import datetime
 
 app = Flask(__name__)
 
@@ -32,6 +34,74 @@ class Role_Application(db.Model):
                 "RoleApplicationStatus": self.role_app_status,
                 "RoleApplicationTimestampCreate": self.role_app_ts_create
                 }
+    
+# Creates a new application
+# Sample imput:
+# {"role_app_id": 004,
+# "role_listing_id": 003,
+# "staff_id": 004}  
+@app.route("/role_application", methods=['POST'])
+def create_application():
+    data = request.get_json()
+    application = Role_Application(data["role_app_id"], data["role_listing_id"], data["staff_id"], "applied", func.now())
+
+    # checks if application with same role_listing_id and staff_id exists
+    application_check = Role_Application.query.filter_by(role_listing_id=data["role_listing_id"], staff_id=data["staff_id"]).first()
+    if application_check:
+        return jsonify(
+            {
+                "code": 400,
+                "data": {
+                    "role_listing_id": data["role_listing_id"],
+                    "staff_id": data["staff_id"]
+                },
+                "message": "You have already applied for this role."
+            }
+        ), 400
+    else:
+        try:
+            db.session.add(application)
+            db.session.commit()
+        except:
+            return jsonify(
+                {
+                    "code": 500,
+                    "data": {
+                        "application": application.json()
+                    },
+                    "message": "An error occurred creating the application."
+                }
+            ), 500
+        return jsonify(
+            {
+                "code": 201,
+                "data": application.json()
+            }
+        ), 201
+
+
+# Withdraws an application
+@app.route("/role_application/withdraw/<int:application_id>", methods=['PUT'])
+def withdraw_application(application_id):
+    application = Role_Application.query.filter_by(role_app_id=application_id).first()
+    if application:
+        application.role_app_status = "withdrawn"
+        db.session.commit()
+        return jsonify(
+            {
+                "code": 200,
+                "data": application.json()
+            }
+        )
+    return jsonify(
+        {
+            "code": 404,
+            "data": {
+                "application_id": application_id
+            },
+            "message": "Application not found."
+        }
+    ), 404
 
 # Retrieves every application in the database
 @app.route("/role_application")

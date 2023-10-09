@@ -31,9 +31,14 @@
   <!-- JQuery-->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
+  <!-- SessionStorage-->
+  <script src="setSessionStorage.js"></script>
+
 </head>
 
 <body>
+
+<div id="app">
 
 <!-- TOP BAR -->
   <div class="container-scroller">
@@ -143,9 +148,13 @@
             <div class="col-md-12 grid-margin stretch-card">
               <div class="card">
                 <div class="card-body">
-                  <h4 class="card-title">Default form</h4>
+                  <h4 class="card-title">Why do you want to take up this role?</h4>
                   <form class="forms-sample">
                     <div class="form-group">
+                      <label for="exampleInputUsername1"></label>
+                      <input type="text" class="form-control" id="exampleInputUsername1" v-model="reason_for_application">
+                    </div>
+                    <!-- <div class="form-group">
                       <label for="exampleInputUsername1">Field1</label>
                       <input type="text" class="form-control" id="exampleInputUsername1" placeholder="Field1">
                     </div>
@@ -160,14 +169,14 @@
                     <div class="form-group">
                       <label for="exampleInputConfirmPassword1">Field4</label>
                       <input type="password" class="form-control" id="exampleInputConfirmPassword1" placeholder="Field4">
-                    </div>
+                    </div> -->
                     <div class="form-check form-check-flat form-check-primary">
                       <label class="form-check-label">
                         <input type="checkbox" class="form-check-input">
                         I confirm that all the information above are true to the best of my ability.
                       </label>
                     </div>
-                    <button type="submit" class="btn btn-primary me-2"  @click="process_report()">Submit</button>
+                    <button type="submit" class="btn btn-primary me-2" @click="submitapplication()">Submit</button>
                     <button class="btn btn-light">Cancel</button>
                   </form>
                 </div>
@@ -181,6 +190,7 @@
     </div>
   </div>
 
+</div>
 
   <!-- CUSTOM JS -->
   <script src="vendors/js/vendor.bundle.base.js"></script>

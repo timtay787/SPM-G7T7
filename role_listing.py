@@ -54,6 +54,20 @@ class Role_Listing(db.Model):
                 "RoleListingTimestampUpdate": self.Role_Listing_ts_update
                 }
 
+class Candidates(db.Model):
+    __tablename__ = 'candidates'
+    Candidate_ID = db.Column(db.Integer, primary_key= True)
+    Role_Listing_ID = db.Column(db.Integer, primary_key= True)
+
+    def __init__(self, Candidate_ID, Role_Listing_ID):
+        self.Candidate_ID = Candidate_ID
+        self.Role_Listing_ID = Role_Listing_ID
+    
+    def json(self):
+        return {"CandidateID": self.Candidate_ID,
+                "RoleListingID": self.Role_Listing_ID
+                }
+
 # Retrieves every role_listing in the database
 @app.route("/role_listing")
 def get_all_role_listing():
@@ -110,6 +124,44 @@ def find_by_role_id(role_id):
         {
             "code": 404,
             "message": "Role Listing not found."
+        }
+    ), 404
+
+# Retrieves candidates based on role_listing_id
+@app.route("/role_listing/candidates/<int:role_listing_id>")
+def find_by_role_listing_id(role_listing_id):
+    candidates = Candidates.query.filter_by(Role_Listing_ID=role_listing_id).all()
+    if len(candidates):
+        return jsonify(
+            {
+                "code": 200,
+                "data": {
+                    "candidates": [candidate.json() for candidate in candidates]
+                }
+            }
+        )
+    return jsonify(
+        {
+            "code": 404,
+            "message": "Candidates not found."
+        }
+    ), 404
+
+# Retrieves a specific candidate based on candidate id and role_listing id
+@app.route("/role_listing/candidates/<int:role_listing_id>/<int:candidate_id>")
+def find_by_candidate_id(candidate_id, role_listing_id):
+    candidate = Candidates.query.filter_by(Candidate_ID=candidate_id, Role_Listing_ID=role_listing_id).first()
+    if candidate:
+        return jsonify(
+            {
+                "code": 200,
+                "data": candidate.json()
+            }
+        )
+    return jsonify(
+        {
+            "code": 404,
+            "message": "Candidate not found."
         }
     ), 404
 

@@ -1,10 +1,12 @@
-const app = vue.createApp({
+const app = Vue.createApp({
     data() {
         return {
-            // role_listing_id: '',
-            // staff_id: '',
+            role_listing_id: sessionStorage.getItem('role_listing_id'),
+            staff_id: sessionStorage.getItem('staff_id'),
+            // role_listing_id: 3,
+            // staff_id: 4,
             submission_error: false,
-            submission_message : '',
+            reason_for_application : '',
             outcome: '',
         }
     },
@@ -13,18 +15,18 @@ const app = vue.createApp({
         async submitapplication() {
             if (this.submission_error==false){
                 create_application = {
-                    "Data" : {
-                        "role_listing_id" : sessionStorage.getItem('role_listing_id'),
-                        "staff_id" : sessionStorage.getItem('staff_id')
-                    }
+                    "role_listing_id" : this.role_listing_id,
+                    "staff_id" : this.staff_id,
+                    "reason_for_application" : this.reason_for_application
+                    
                 }
                 console.log(create_application)
-                const response = await fetch('http://localhost:5004/role_application', {
+                const response = await fetch('http://127.0.0.1:5004/role_application', {
                     method: 'POST',
+                    body: JSON.stringify(create_application),
                     headers: {
                         'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify(create_application)
                 })
                 const data = await response.json()
                 console.log(data)
@@ -38,3 +40,6 @@ const app = vue.createApp({
 })
 
 app.mount('#app')
+
+// http://127.0.0.1:5004/role_application
+// http://localhost:5004/role_application

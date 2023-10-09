@@ -14,36 +14,37 @@ CORS(app)
 
 class Role_Application(db.Model):
     __tablename__ = 'role_application'
-    role_app_id = db.Column(db.Integer, primary_key= True)
+    role_app_id = db.Column(db.Integer, primary_key= True, autoincrement=True)
     role_listing_id = db.Column(db.Integer, nullable=False)
     staff_id = db.Column(db.Integer, nullable=False)
     role_app_status = db.Column(db.String(20), nullable=False)
     role_app_ts_create = db.Column(db.DateTime, nullable=False)
+    reason_for_application = db.Column(db.String(50000), nullable=False)
 
-    def __init__(self, role_app_id, role_listing_id, staff_id, role_app_status, role_app_ts_create):
-        self.role_app_id = role_app_id
+    def __init__(self, role_listing_id, staff_id, role_app_status, role_app_ts_create, reason_for_application):
         self.role_listing_id = role_listing_id
         self.staff_id = staff_id
         self.role_app_status = role_app_status
         self.role_app_ts_create = role_app_ts_create
+        self.reason_for_application = reason_for_application
 
     def json(self):
         return {"RoleApplicationID": self.role_app_id,
                 "RoleListingID": self.role_listing_id,
                 "StaffID": self.staff_id,
                 "RoleApplicationStatus": self.role_app_status,
-                "RoleApplicationTimestampCreate": self.role_app_ts_create
+                "RoleApplicationTimestampCreate": self.role_app_ts_create,
+                "ReasonForApplication": self.reason_for_application
                 }
     
 # Creates a new application
 # Sample imput:
-# {"role_app_id": 004,
-# "role_listing_id": 003,
-# "staff_id": 004}  
+# {"role_listing_id": 3,
+# "staff_id": 4}  
 @app.route("/role_application", methods=['POST'])
 def create_application():
     data = request.get_json()
-    application = Role_Application(data["role_app_id"], data["role_listing_id"], data["staff_id"], "applied", func.now())
+    application = Role_Application(data["role_listing_id"], data["staff_id"], "applied", func.now(), data["reason_for_application"])
 
     # checks if application with same role_listing_id and staff_id exists
     application_check = Role_Application.query.filter_by(role_listing_id=data["role_listing_id"], staff_id=data["staff_id"]).first()
@@ -51,10 +52,7 @@ def create_application():
         return jsonify(
             {
                 "code": 400,
-                "data": {
-                    "role_listing_id": data["role_listing_id"],
-                    "staff_id": data["staff_id"]
-                },
+                "data": application_check.json(),
                 "message": "You have already applied for this role."
             }
         ), 400

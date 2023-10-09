@@ -261,16 +261,31 @@ drop schema if exists application_DB;
 create schema application_DB;
 use application_DB;
 
+-- -- create application table
+-- create table application_DB.role_application
+-- (role_app_id int not null auto_increment primary key,
+-- role_listing_id int not null,
+-- staff_id int not null,
+-- role_app_status ENUM('applied', 'withdrawn') not null,
+-- role_app_ts_create timestamp default current_timestamp);
+
+-- -- insert data into role_application table
+-- INSERT INTO application_DB.role_application VALUES
+-- (001, 002, 001, 'applied', timestamp("2023-09-27")),
+-- (002, 001, 002, 'applied', timestamp("2023-09-27")),
+-- (003, 001, 003, 'applied', timestamp("2023-09-27"));
+
 -- create application table
 create table application_DB.role_application
 (role_app_id int not null auto_increment primary key,
 role_listing_id int not null,
 staff_id int not null,
 role_app_status ENUM('applied', 'withdrawn') not null,
-role_app_ts_create timestamp default current_timestamp);
+role_app_ts_create timestamp default current_timestamp,
+reason_for_application varchar(50000));
 
 -- insert data into role_application table
 INSERT INTO application_DB.role_application VALUES
-(001, 002, 001, 'applied', timestamp("2023-09-27")),
-(002, 001, 002, 'applied', timestamp("2023-09-27")),
-(003, 001, 003, 'applied', timestamp("2023-09-27"));
+(001, 002, 001, 'applied', timestamp("2023-09-27"), 'I am interested in this role because...'),
+(002, 001, 002, 'applied', timestamp("2023-09-27"), 'I am interested in this role because...'),
+(003, 001, 003, 'applied', timestamp("2023-09-27"), 'I am interested in this role because...');

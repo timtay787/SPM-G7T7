@@ -113,6 +113,26 @@ def get_all_staff():
         }
     ), 404
 
+# Retrieves every manager in the database
+@app.route("/staff/manager")
+def get_all_manager():
+    stafflist = Staff.query.filter_by(sys_role="manager").all()
+    if len(stafflist):
+        return jsonify(
+            {
+                "code": 200,
+                "data": {
+                    "staff": [staff.json() for staff in stafflist]
+                }
+            }
+        )
+    return jsonify(
+        {
+            "code": 404,
+            "message": "There are no managers."
+        }
+    ), 404
+
 # Retrieves a staff based on staff_id
 @app.route("/staff/<int:staff_id>")
 def find_by_staff_id(staff_id):

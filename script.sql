@@ -145,7 +145,8 @@ INSERT INTO Role_DB.role_details VALUES
 (019, 'Engineering Operation Division Director', '...', 'active'),
 (020, 'Human Resources and Admin Director', '...', 'active'),
 (021, 'Finance Director', '...', 'active'),
-(022, 'Information Technology Director', '...', 'active');
+(022, 'Information Technology Director', '...', 'active'),
+(023, 'Moral Support Professional', '...', 'inactive');
 
 
 -- create role_skill table

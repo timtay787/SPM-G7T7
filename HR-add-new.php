@@ -1,3 +1,4 @@
+
 <?php 
   // $name = $_SESSION['userid'];
   $name = 'HR123';
@@ -24,10 +25,21 @@
   <link rel="stylesheet" href="vendors/datatables.net-bs4/dataTables.bootstrap4.css">
   <link rel="stylesheet" href="js/select.dataTables.min.css">
   <link rel="stylesheet" href="css/vertical-layout-light/style.css">
+
+  <!-- Vue 3 -->
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script> 
+
+  <!-- JQuery-->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+  <!-- SessionStorage-->
+  <script src="setSessionStorage.js"></script>
+
+
 </head>
 
 <body>
-
+<div id="app">
 <!-- TOP BAR -->
   <div class="container-scroller">
       <!-- LOGO-->
@@ -83,30 +95,41 @@
               <div class="card">
                 <div class="card-body">
                   <h4 class="card-title">Add New Role Listing</h4>
-                  <form class="forms-sample">
+                  <form id="role_listing" class="forms-sample">
+
                     <div class="form-group">
-                      <label for="exampleInputUsername1">Field1</label>
-                      <input type="text" class="form-control" id="exampleInputUsername1" placeholder="Field1">
+                      <label for="role_id">Select the role you wish to recruit for:</label>
+                      <select class="form-control" form="role_listing" id="role_id" name="role_id" list="roles" v-model="role_id">
+                        <option v-for="role of roles" v-bind:value="role.RoleID" v-bind:selected="role_id===role.RoleID">{{role.RoleName}}</option>
+                      </select>
+                    </div>
+
+                    <div class="form-group">
+                      <label for="role_listing_desc">Please enter a brief description of this role:</label>
+                      <input type="text" class="form-control" id="role_listing_desc" v-model="role_listing_desc">
+                    </div>
+                    
+                    <div class="form-group">
+                      <label for="role_listing_source">Who is the manager/director of this role?</label>
+                      <select class="form-control" form="role_listing" id="role_listing_source" name="role_listing_source" v-model="role_listing_source">
+                        <option v-for="manager of managers" v-bind:value="manager.StaffID"  v-bind:selected="role_listing_source===manager.StaffID">{{manager.StaffFirstName}} {{manager.StaffLastName}}, {{manager.Department}}</option>
+                      </select>
                     </div>
                     <div class="form-group">
-                      <label for="exampleInputEmail1">Field2</label>
-                      <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Field2">
+                      <label for="role_listing_open">When should this role listing open?</label>
+                      <input type="date" v-bind:min="current_date" class="form-control" id="role_listing_open" v-model="role_listing_open">
                     </div>
                     <div class="form-group">
-                      <label for="exampleInputPassword1">Field3</label>
-                      <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Field3">
+                      <label for="role_listing_close">When should this role listing close?</label>
+                      <input type="date" v-bind:min="role_listing_open" class="form-control" id="role_listing_close" v-model="role_listing_close">
                     </div>
-                    <div class="form-group">
-                      <label for="exampleInputConfirmPassword1">Field4</label>
-                      <input type="password" class="form-control" id="exampleInputConfirmPassword1" placeholder="Field4">
-                    </div>
-                    <div class="form-check form-check-flat form-check-primary">
+                    <!-- <div class="form-check form-check-flat form-check-primary">
                       <label class="form-check-label">
                         <input type="checkbox" class="form-check-input">
                         I confirm that all the information above are true to the best of my ability.
                       </label>
-                    </div>
-                    <button type="submit" class="btn btn-primary me-2">Confirm</button>
+                    </div> -->
+                    <button type="submit" class="btn btn-primary me-2" @click="createlisting()">Confirm</button>
                     <button class="btn btn-light">Cancel</button>
                   </form>
                 </div>
@@ -116,7 +139,7 @@
       <!-- main panel ends here -->
     </div>
   </div>
-
+</div>
 
   <!-- CUSTOM JS -->
   <script src="vendors/js/vendor.bundle.base.js"></script>
@@ -131,6 +154,8 @@
   <script src="js/jquery.cookie.js" type="text/javascript"></script>
   <script src="js/dashboard.js"></script>
   <script src="js/Chart.roundedBarCharts.js"></script>
+
+  <script src="role_listing_form.js"></script>  
 </body>
 
 </html>

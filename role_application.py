@@ -73,7 +73,8 @@ def create_application():
         return jsonify(
             {
                 "code": 201,
-                "data": application.json()
+                "data": application.json(),
+                "message": "Application created successfully."
             }
         ), 201
 

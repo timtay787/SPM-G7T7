@@ -1,8 +1,10 @@
+// remember to check role_listing_id/staff_id in session storage before testing
 const app = Vue.createApp({
     data() {
         return {
             role_listing_id: sessionStorage.getItem('role_listing_id'),
             staff_id: sessionStorage.getItem('staff_id'),
+            test: "hi",
             // role_listing_id: 3,
             // staff_id: 4,
             submission_error: false,

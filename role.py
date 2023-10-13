@@ -44,10 +44,10 @@ class Role_Skills(db.Model):
                 "SkillID": self.skill_id
                 }
 
-# Retrieves every role in the database
+# Retrieves every active role in the database
 @app.route("/role")
 def get_all_role():
-    rolelist = Role.query.all()
+    rolelist = Role.query.filter_by(role_status="Active").all()
     if len(rolelist):
         return jsonify(
             {

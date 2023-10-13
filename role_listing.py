@@ -128,23 +128,24 @@ def create_role_listing():
 #     "role_listing_id": 4,
 #     "role_listing_desc": "This is a test role listing.",
 #     "role_listing_source": 1,
-#     "role_listing_open": "2021-01-01
+#     "role_listing_open": "2021-01-01",
 #     "role_listing_close": "2021-01-02",
 #     "role_listing_updater": 2
 # }
 @app.route("/role_listing/update", methods=['PUT'])
 def update_role_listing():
     data = request.get_json()
-    listing_id = data['Role_Listing_ID']
+    current_datetime = datetime.now()
+    listing_id = data['role_listing_id']
     role_listing = Role_Listing.query.filter_by(role_listing_id=listing_id).first()
     if role_listing:
         try:
-            role_listing.role_listing_desc = data['Role_Listing_Desc']
-            role_listing.role_listing_source = data['Role_Listing_Source']
-            role_listing.role_listing_open = data['Role_Listing_Open']
-            role_listing.role_listing_close = data['Role_Listing_Close']
-            role_listing.role_listing_updater = data['Role_Listing_Updater']
-            role_listing.role_listing_ts_update = func.now()
+            role_listing.role_listing_desc = data['role_listing_desc']
+            role_listing.role_listing_source = data['role_listing_source']
+            role_listing.role_listing_open = data['role_listing_open']
+            role_listing.role_listing_close = data['role_listing_close']
+            role_listing.role_listing_updater = data['role_listing_updater']
+            role_listing.role_listing_ts_update = current_datetime
             db.session.commit()
         except:
             return jsonify(

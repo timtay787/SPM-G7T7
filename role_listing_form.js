@@ -1,3 +1,4 @@
+// remember to check role_listing_id/staff_id in session storage before testing
 const app = Vue.createApp({
     data() {
         return {
@@ -44,6 +45,34 @@ const app = Vue.createApp({
 
                 if (data['message'] == "Role Listing created successfully") {
                     this.outcome = 'Role listing created successfully. Please verify the listing in the Role Listing page.'
+                }
+            }
+        },
+        
+        async updatelisting() {
+            if (this.submission_error==false){
+                update_role_listing = {
+                    "role_listing_id" : sessionStorage.getItem('role_listing_id'),
+                    "role_listing_desc" : this.role_listing_desc,
+                    "role_listing_source" : this.role_listing_source,
+                    "role_listing_open" : this.role_listing_open,
+                    "role_listing_close" : this.role_listing_close,
+                    "role_listing_updater" : sessionStorage.getItem('staff_id'),
+                    
+                }
+                console.log(update_role_listing)
+                const result = await fetch('http://127.0.0.1:5003/role_listing/update', {
+                    method: 'PUT',
+                    body: JSON.stringify(update_role_listing),
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                })
+                const data = await result.json()
+                console.log(data)
+
+                if (data['message'] == "Role Listing updated successfully") {
+                    this.outcome = 'Role listing updated successfully. Please verify the listing in the Role Listing page.'
                 }
             }
         }
@@ -93,6 +122,7 @@ const app = Vue.createApp({
     }
 
 })
+
 
 app.mount('#app')
 

@@ -1,11 +1,3 @@
-
-<?php 
-  // $name = $_SESSION['userid'];
-  $name = 'HR123';
-  $email = 'HR@gmail.com';
-  $index = 'staff-profile.php'
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -94,15 +86,8 @@
       <div class="col-md-12 grid-margin stretch-card">
               <div class="card">
                 <div class="card-body">
-                  <h4 class="card-title">Add New Role Listing</h4>
+                  <h4 class="card-title">Update Role Listing</h4>
                   <form id="role_listing" class="forms-sample">
-
-                    <div class="form-group">
-                      <label for="role_id">Select the role you wish to recruit for:</label>
-                      <select class="form-control" form="role_listing" id="role_id" name="role_id" list="roles" v-model="role_id">
-                        <option v-for="role of roles" v-bind:value="role.RoleID" v-bind:selected="role_id===role.RoleID">{{role.RoleName}}</option>
-                      </select>
-                    </div>
 
                     <div class="form-group">
                       <label for="role_listing_desc">Please enter a brief description of this role:</label>
@@ -129,7 +114,7 @@
                         I confirm that all the information above are true to the best of my ability.
                       </label>
                     </div> -->
-                    <button type="submit" class="btn btn-primary me-2" @click="createlisting()">Confirm</button>
+                    <button type="submit" class="btn btn-primary me-2" @click="updatelisting()">Confirm</button>
                     <button class="btn btn-light">Cancel</button>
                   </form>
                 </div>

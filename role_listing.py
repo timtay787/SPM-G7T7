@@ -37,7 +37,6 @@ class Role_Listing(db.Model):
         self.role_listing_creator = role_listing_creator
         self.role_listing_ts_create = role_listing_ts_create
         # self.country = country
-        # self.career_Level = career_Level
         self.role_listing_updater = role_listing_updater
         self.role_listing_ts_update = role_listing_ts_update
 

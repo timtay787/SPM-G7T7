@@ -171,6 +171,24 @@ def find_roles_by_staff_id(staff_id):
         }
     ), 404
 
+# Retrieves staff's primary role based on staff_id
+@app.route("/staff/p_role/<int:staff_id>")
+def find_roles_by_staff_id(staff_id):
+    primary_role = Staff_Roles.query.filter_by(staff_id=staff_id, role_type="primary").first()
+    if primary_role:
+        return jsonify(
+            {
+                "code": 200,
+                "data": primary_role.json()
+            }
+        )
+    return jsonify(
+        {
+            "code": 404,
+            "message": "Staff's primary role not found."
+        }
+    ), 404
+
 # Retrieves skills that a staff has based on staff_id
 @app.route("/staff/skillsofstaff/<int:staff_id>")
 def find_skills_by_staff_id(staff_id):

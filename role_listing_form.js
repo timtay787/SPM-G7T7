@@ -3,13 +3,13 @@ const app = Vue.createApp({
     data() {
         return {
             role_listing_id: 4,
-            role_id: null,
+            role_id: 0,
             role_listing_desc: '',
-            role_listing_source: null,
-            role_listing_open: null,
-            role_listing_close: null,
-            role_listing_creator: null,
-            role_listing_updater: null,
+            role_listing_source: 0,
+            role_listing_open: '',
+            role_listing_close: '',
+            role_listing_creator: 0,
+            role_listing_updater: 0,
 
             roles : [],
             managers : [],

@@ -47,17 +47,25 @@ def get_all_skill():
         }
     ), 404
 
-# Retrieves a skill based on skill_id
+# Retrieves an active skill based on skill_id
 @app.route("/skill/<int:skill_id>")
 def find_by_skill_id(skill_id):
     skill = Skill.query.filter_by(skill_id=skill_id).first()
     if skill:
-        return jsonify(
-            {
-                "code": 200,
-                "data": skill.json()
-            }
-        )
+        if skill.skill_status == 'active':
+            return jsonify(
+                {
+                    "code": 200,
+                    "data": skill.json()
+                }
+            )
+        else:
+            return jsonify(
+                {
+                    "code": 404,
+                    "message": "Skill inactive."
+                }
+            ), 404
     return jsonify(
         {
             "code": 404,

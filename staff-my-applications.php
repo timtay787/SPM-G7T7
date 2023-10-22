@@ -24,10 +24,19 @@
   <link rel="stylesheet" href="vendors/datatables.net-bs4/dataTables.bootstrap4.css">
   <link rel="stylesheet" href="js/select.dataTables.min.css">
   <link rel="stylesheet" href="css/vertical-layout-light/style.css">
+  
+  <!-- Vue 3 -->
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script> 
+
+  <!-- JQuery-->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+  <!-- SessionStorage-->
+  <script src="setSessionStorage.js"></script>
 </head>
 
 <body>
-
+<div id="app">
 <!-- TOP BAR -->
   <div class="container-scroller">
       <!-- LOGO-->
@@ -100,23 +109,24 @@
                       <thead>
                         <tr>
                             <th>Application ID</th>
-                            <th><h6>Job Title</h6><p>Department</p></th>
-                            <th>Hiring Manager</th>
+                            <th><h6>Job Title</h6></th>
+                            <!-- <th>Hiring Manager</th> -->
                             <th>Date of Application</th>
                             <th>Status</th>
                             <th><th>
                         </tr>
                       </thead>
-                      <tbody>
+
+                      <!-- start of table-->
+                      <tbody v-for='application of role_application'>
                         <tr>
-                            <td>01234</td>
-                            <td><h6>Social Media Manager</h6><p>Marketing</p></td>
-                            <td>Julie Tan</td>
-                            <td>01/06/2023</td>
-                            <td><label class="badge badge-warning">Draft</label></td>
+                            <td>{{application.application.RoleApplicationID}}</td>
+                            <td><h6>{{application.role.RoleName}}</h6></td>
+                            <td>{{application.date}}</td>
+                            <td style="text-transform:uppercase">{{application.application.RoleApplicationStatus}}</td>
                             <td><button type="button" onclick="location.href = 'staff-application.php'" class="btn btn-primary">View Application</button></td>
                         </tr>
-                        <tr>
+                        <!-- <tr>
                             <td>02345</td>
                             <td><h6>Content Creator</h6><p>Marketing</p></td>
                             <td>Julie Tan</td>
@@ -131,7 +141,7 @@
                             <td>02/06/2023</td>
                             <td><label class="badge badge-warning">Pending</label></td>
                             <td><button type="button" onclick="location.href = 'staff-application.php'" class="btn btn-primary">View Application</button></td>
-                        </tr>
+                        </tr> -->
                       </tbody>
                     </table>
                   </div>
@@ -139,7 +149,7 @@
               </div>
             </div>
             <h2 class="text-black fw-bold"> </h2>
-          <div class="col-lg-12 grid-margin stretch-card">              
+          <!-- <div class="col-lg-12 grid-margin stretch-card">              
             <div class="card">
                 <div class="card-body">
                   <h4 class="card-title">Past</h4>
@@ -193,14 +203,16 @@
                 </div>
               </div>
             </div>
-          </div>
+          </div> -->
+
+
         </div>
       </div>
 
       <!-- end of main panel -->
     </div>
   </div>
-
+</div>
 
   <!-- CUSTOM JS -->
   <script src="vendors/js/vendor.bundle.base.js"></script>
@@ -215,6 +227,7 @@
   <script src="js/jquery.cookie.js" type="text/javascript"></script>
   <script src="js/dashboard.js"></script>
   <script src="js/Chart.roundedBarCharts.js"></script>
+  <script src="role_application.js"></script>
 </body>
 
 </html>

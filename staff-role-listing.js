@@ -1,7 +1,9 @@
 const app = Vue.createApp({
     data() {
         return {
-            //role_listing_id: sessionStorage.getItem('role_listing_id'),
+            //hardcoded staff_id for testing purposes
+            staff_id: sessionStorage.getItem('staff_id'),
+            //staff_id: 1,
             role_id: 0,
             role_listing: {},
             applications: [],
@@ -14,7 +16,8 @@ const app = Vue.createApp({
             close_date: '',
             skills: [],
             position: {},
-            staff_applications: [],
+            staff_match: [],
+            staff: {},
         }
     },
     methods: {
@@ -68,7 +71,7 @@ const app = Vue.createApp({
             
             // Get hiring manager info
             console.log(this.staff)
-            var serviceURL3 = 'http://localhost:5000/staff/'+this.role_listing_source;
+            var serviceURL3 = 'http://localhost:5000/staff';
             try {
                 const response3 =
                     await fetch(
@@ -85,7 +88,79 @@ const app = Vue.createApp({
                 console.log('Error in get hiring manager info.')
             }
 
-            //Get skills match
+            //Get skills of staff
+            var serviceURL4 = 'http://localhost:5000/staff/skillsofstaff/'+this.staff_id;
+            try {
+                const response4 =
+                    await fetch(
+                        serviceURL4, {method: 'GET'}
+                    );
+                const result4 = await response4.json();
+                if (response4.status == 200){
+                    var staff_skills = result4.data.staff_skills
+                }
+            }
+            catch (error) {
+                console.log('Error in processing the skills of staff.')
+            }
+
+            // Get skills for each role in role_listing
+            console.log(JSON.stringify(this.role_listing.role_listing[0].RoleID))
+            console.log(Number(JSON.stringify(this.role_listing.role_listing.length)))
+
+            // HELP: it won't loop
+            for (var i=0; i<Number(JSON.stringify(this.role_listing.role_listing.length)); i++){
+                var serviceURL5 = 'http://localhost:5001/role/skill/'+JSON.stringify(this.role_listing.role_listing[i].RoleID);
+                console.log(serviceURL5)
+                console.log(i)
+                try {
+                    const response5 =
+                        await fetch(
+                            serviceURL5, {method: 'GET'}
+                        );
+                    const result5 = await response5.json();
+                    if (response5.status == 200){
+                        var skills = result5.data.role_skill
+                        for (var i=0; i<skills.length; i++){
+                            var skillid = skills[i].SkillID
+                            console.log(skillid)
+                            var serviceURL6 = 'http://localhost:5002/skill/'+skillid;
+                            try {
+                                const response6 =
+                                    await fetch(
+                                        serviceURL6, {method: 'GET'}
+                                    );
+                                const result6 = await response6.json();
+                                if (response6.status == 200){
+                                    var skill = result6.data
+                                    this.skills.push(skill)
+                                }
+                            }
+                            catch (error) {
+                                console.log('Error in processing the request.')
+                            }
+                        }
+                    }
+                }
+                catch (error) {
+                    console.log('Error in processing the request.')
+                }
+                
+                //Get skill match rate
+                var skill_match = 0
+                for (var j=0; j<staff_skills.length; j++){
+                    for (var k=0; k<this.skills.length; k++){
+                        if (staff_skills[j].SkillID == this.skills[k].SkillID){
+                            skill_match += 1
+                        }
+                    }
+                }
+                match_rate = Math.floor((skill_match / this.skills.length) * 100)
+                console.log(match_rate)
+                this.staff_match.push({'match_rate': match_rate})
+                this.staff_match = this.staff_match
+                console.log(this.staff_match[0])
+            }
         })
     },
 })

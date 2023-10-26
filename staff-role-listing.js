@@ -108,7 +108,7 @@ const app = Vue.createApp({
             console.log(JSON.stringify(this.role_listing.role_listing[0].RoleID))
             console.log(Number(JSON.stringify(this.role_listing.role_listing.length)))
 
-            // HELP: it won't loop
+            // HELP: the outer for loop won't loop, the inner one (skill match rate) okay
             for (var i=0; i<Number(JSON.stringify(this.role_listing.role_listing.length)); i++){
                 var serviceURL5 = 'http://localhost:5001/role/skill/'+JSON.stringify(this.role_listing.role_listing[i].RoleID);
                 console.log(serviceURL5)

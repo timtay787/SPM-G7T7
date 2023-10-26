@@ -106,13 +106,13 @@ const app = Vue.createApp({
 
             // Get skills for each role in role_listing
             console.log(JSON.stringify(this.role_listing.role_listing[0].RoleID))
-            console.log(Number(JSON.stringify(this.role_listing.role_listing.length)))
+            console.log(this.role_listing.role_listing.length)
+            console.log(role_listing.role_listing)
 
             // HELP: the outer for loop won't loop, the inner one (skill match rate) okay
-            for (var i=0; i<Number(JSON.stringify(this.role_listing.role_listing.length)); i++){
-                var serviceURL5 = 'http://localhost:5001/role/skill/'+JSON.stringify(this.role_listing.role_listing[i].RoleID);
-                console.log(serviceURL5)
+            for (var i=0; i<role_listing.role_listing.length; i++){
                 console.log(i)
+                var serviceURL5 = 'http://localhost:5001/role/skill/'+JSON.stringify(this.role_listing.role_listing[i].RoleID);
                 try {
                     const response5 =
                         await fetch(
@@ -121,29 +121,30 @@ const app = Vue.createApp({
                     const result5 = await response5.json();
                     if (response5.status == 200){
                         var skills = result5.data.role_skill
-                        for (var i=0; i<skills.length; i++){
-                            var skillid = skills[i].SkillID
-                            console.log(skillid)
-                            var serviceURL6 = 'http://localhost:5002/skill/'+skillid;
-                            try {
-                                const response6 =
-                                    await fetch(
-                                        serviceURL6, {method: 'GET'}
-                                    );
-                                const result6 = await response6.json();
-                                if (response6.status == 200){
-                                    var skill = result6.data
-                                    this.skills.push(skill)
-                                }
-                            }
-                            catch (error) {
-                                console.log('Error in processing the request.')
-                            }
-                        }
                     }
                 }
                 catch (error) {
                     console.log('Error in processing the request.')
+                }
+                console.log(skills)
+                for (var j=0; j<skills.length; j++){
+                    var skillid = skills[j].SkillID
+                    console.log(skillid)
+                    var serviceURL6 = 'http://localhost:5002/skill/'+skillid;
+                    try {
+                        const response6 =
+                            await fetch(
+                                serviceURL6, {method: 'GET'}
+                            );
+                        const result6 = await response6.json();
+                        if (response6.status == 200){
+                            var skill = result6.data
+                            this.skills.push(skill)
+                        }
+                    }
+                    catch (error) {
+                        console.log('Error in processing the request.')
+                    }
                 }
                 
                 //Get skill match rate

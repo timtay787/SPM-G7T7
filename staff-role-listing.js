@@ -159,7 +159,6 @@ const app = Vue.createApp({
                 match_rate = Math.floor((skill_match / this.skills.length) * 100)
                 console.log(match_rate)
                 this.staff_match.push({'match_rate': match_rate})
-                this.staff_match = this.staff_match
                 console.log(this.staff_match[0])
             }
         })

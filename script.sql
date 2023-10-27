@@ -60,6 +60,7 @@ constraint staff_roles_fk foreign key (Staff_ID) references staff_details(Staff_
 -- insert data into staff_roles table
 INSERT INTO Staff_DB.staff_roles VALUES
 (001, 002, "primary", "active"),
+(001, 014, "secondary", "active"),
 (002, 014, "primary", "active"),
 (003, 015, "primary", "active"),
 (004, 010, "primary", "active"),
@@ -94,6 +95,8 @@ INSERT INTO Staff_DB.staff_skill VALUES
 (001, 007, 'active'),
 (001, 008, 'active'),
 (001, 011, 'active'),
+(001, 009, 'unverified'),
+(001, 010, 'unverified'),
 (002, 001, 'active'),
 (002, 002, 'active'),
 (002, 003, 'active'),

@@ -1,9 +1,3 @@
-<?php 
-  // $name = $_SESSION['userid'];
-  $name = 'HR123';
-  $email = 'HR@gmail.com';
-  $index = 'staff-profile.php'
-?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -36,7 +30,6 @@
 
 <body>
 <div id="app">
-
 <!-- TOP BAR -->
   <div class="container-scroller">
       <!-- LOGO-->
@@ -72,27 +65,32 @@
       <nav class="sidebar sidebar-offcanvas" id="sidebar">
         <ul class="nav">
           <li class="nav-item">
-            <a class="nav-link" href="HR-staff-list.php" aria-expanded="false" aria-controls="form-elements">
+            <a class="nav-link" href="staff-profile.php" aria-expanded="false" aria-controls="form-elements">
               <i class="menu-icon mdi mdi-account-circle-outline"></i>
-              <span class="menu-title">Staff Members</span>
+              <span class="menu-title">Profile</span>
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="HR-role-listings.php" aria-expanded="false" aria-controls="form-elements">
+            <a class="nav-link" href="staff-role-listings.php" aria-expanded="false" aria-controls="form-elements">
               <i class="menu-icon mdi mdi-card-text-outline"></i>
               <span class="menu-title">Role Listings</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="staff-my-applications.php">
+              <i class="mdi mdi-grid-large menu-icon"></i>
+              <span class="menu-title">Applications</span>
             </a>
           </li>
         </ul>
       </nav>
       
       <!-- MAIN PANEL -->
-
       <div class="main-panel">        
         <div class="content-wrapper">
           <div class="row">
           <br>
-            <h1>This is Megan's application for</h1>
+            <h1>This is your application for</h1>
         <br>
           <div class="col-md-12 grid-margin stretch-card">
               <div class="card">
@@ -145,15 +143,6 @@
                   <h6>Why do you want to apply for this role?</h6>
                   <p>{{application.ReasonForApplication}}</p>
                   <br>
-                  <!-- <h6>What softwares do you use to create content?</h6>
-                  <p>Canva, Adobe Creative Cloud, Buffer</p>
-                  <br>
-                  <h6>Given a $300 budget, how will you use it to increase social media outreach?</h6>
-                  <p>Analytics tools, engagement boost, content collaboration</p>
-                  <br>
-                  <h6>Do you have a social media page for us to look at?</h6>
-                  <p>Yes XXXXX</p>
-                  <br> -->
                   
                 </div>
               </div>
@@ -162,11 +151,10 @@
           </div>
         </div>
       </div>
-
       <!-- main panel ends here -->
     </div>
   </div>
-</div
+</div>
 
   <!-- CUSTOM JS -->
   <script src="vendors/js/vendor.bundle.base.js"></script>

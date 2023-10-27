@@ -24,10 +24,19 @@
   <link rel="stylesheet" href="vendors/datatables.net-bs4/dataTables.bootstrap4.css">
   <link rel="stylesheet" href="js/select.dataTables.min.css">
   <link rel="stylesheet" href="css/vertical-layout-light/style.css">
+
+  <!-- Vue 3 -->
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script> 
+
+  <!-- JQuery-->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+  <!-- SessionStorage-->
+  <script src="setSessionStorage.js"></script>
 </head>
 
 <body>
-
+<div id="app">
 <!-- TOP BAR -->
   <div class="container-scroller">
       <!-- LOGO-->
@@ -108,24 +117,24 @@
                         <table class="table">
                           <tr>
                             <th>Job Title</th>
-                            <td>Social Media Manager</td>
+                            <td>{{role.RoleName}}</td>
                           </tr>
                           <tr>
                             <th>Department</th>
-                            <td>Marketing</td>
+                            <td>{{hiring_manager.Department}}</td>
                           </tr>
                           <tr>
-                            <th>Country</th>
-                            <td>Singapore</td>
+                            <th>Business Address</th>
+                            <td>{{hiring_manager.BusinessAddress}}</td>
                           </tr>
                           <tr>
-                            <th>Post Date</th>
-                            <td>19/06/2023</td>
+                            <th>Application Date</th>
+                            <td>{{appdate}}</td>
                           </tr>
-                          <tr>
+                          <!-- <tr>
                             <th>Career Level</th>
                             <td>Entry</td>
-                          </tr>
+                          </tr> -->
                         </table>
                       </div>
                     </div>
@@ -139,16 +148,7 @@
                   <h4 class="card-title">Your Application</h4>
 
                   <h6>Why do you want to apply for this role?</h6>
-                  <p>I want to be a social media manager because I am deeply passionate about the digital landscape and its potential to connect people, build communities, and drive meaningful engagement.</p>
-                  <br>
-                  <h6>What softwares do you use to create content?</h6>
-                  <p>Canva, Adobe Creative Cloud, Buffer</p>
-                  <br>
-                  <h6>Given a $300 budget, how will you use it to increase social media outreach?</h6>
-                  <p>Analytics tools, engagement boost, content collaboration</p>
-                  <br>
-                  <h6>Do you have a social media page for us to look at?</h6>
-                  <p>Yes XXXXX</p>
+                  <p>{{application.ReasonForApplication}}</p>
                   <br>
                   
                 </div>
@@ -161,7 +161,7 @@
       <!-- main panel ends here -->
     </div>
   </div>
-
+</div>
 
   <!-- CUSTOM JS -->
   <script src="vendors/js/vendor.bundle.base.js"></script>
@@ -176,6 +176,7 @@
   <script src="js/jquery.cookie.js" type="text/javascript"></script>
   <script src="js/dashboard.js"></script>
   <script src="js/Chart.roundedBarCharts.js"></script>
+  <script src="application_info.js"></script>
 </body>
 
 </html>

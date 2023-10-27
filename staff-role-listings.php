@@ -24,10 +24,20 @@
   <link rel="stylesheet" href="vendors/datatables.net-bs4/dataTables.bootstrap4.css">
   <link rel="stylesheet" href="js/select.dataTables.min.css">
   <link rel="stylesheet" href="css/vertical-layout-light/style.css">
+
+  <!-- Vue 3 -->
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script> 
+
+  <!-- JQuery-->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+  <!-- SessionStorage-->
+  <script src="setSessionStorage.js"></script>
+
 </head>
 
 <body>
-
+<div id="app">
 <!-- TOP BAR -->
   <div class="container-scroller">
       <!-- LOGO-->
@@ -104,7 +114,7 @@
                         </tr>
                       </thead>
                       <tbody>
-                        <tr>
+                        <!--<tr>
                           <td><h6>Social Media Manager</h6><p>Marketing</p></td>
                           <td>Julie Tan</td>
                           <td>
@@ -114,106 +124,27 @@
                             <div class="text-success"> 90% </div>
                           </td>
                           <td><button type="button" onclick="location.href = 'role-listing-info.php'" class="btn btn-success">Open</button></td>
-                        </tr>
-                        <tr>
-                          <td><h6>Marketing Manager</h6><p>Marketing</p></td>
-                          <td>Sarah Tan</td>
+                        </tr>-->
+
+                        <template v-for='role_listing_a in role_listing'>
+                        <!--v-for="(value, key, index) in myObject"-->
+                        <tr v-for = "(value, key, index) in role_listing_a">
+                          <!-- the below I assume that in role, the RoleID will always be the index-1 -->
+                          <td>
+                          <h6>{{role.role[value.RoleID-1].RoleName}}</h6>
+                          <!--Assume that department is same as the hiring manager-->
+                          <p>{{manager.staff[value.RoleListingCreator-1].Department}}</p>
+                          </td>
+                          <td>{{manager.staff[value.RoleListingCreator-1].StaffFirstName}} {{manager.staff[value.RoleListingCreator-1].StaffLastName}}</td>
                           <td>
                             <div class="progress">
-                                <div class="progress-bar bg-warning" role="progressbar" style="width: 50%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                                <div class="progress-bar bg-success" role="progressbar" style="width: 80%" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
                             </div>
-                            <div class="text-warning"> 50% </div>
+                            <div class="text-success"> {{staff_match.match_rate}}% </div>
                           </td>
                           <td><button type="button" onclick="location.href = 'role-listing-info.php'" class="btn btn-success">Open</button></td>
                         </tr>
-                        <tr>
-                          <td><h6>Software Developer</h6><p>IT</p></td>
-                          <td>Alex Reynolds</td>
-                          <td>
-                            <div class="progress">
-                                <div class="progress-bar bg-danger" role="progressbar" style="width: 10%" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"></div>
-                            </div>
-                            <div class="text-danger"> 10% </div>
-                          </td>
-                          <td><button type="button" onclick="location.href = 'role-listing-info.php'" class="btn btn-success">Open</button></td>
-                        </tr>
-                        <tr>
-                          <td><h6>Customer Service Representative</h6><p>Customer Support</p></td>
-                          <td>Emily Tan</td>
-                          <td>
-                            <div class="progress">
-                                <div class="progress-bar bg-success" role="progressbar" style="width: 60%" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
-                            </div>
-                            <div class="text-success"> 60% </div>
-                          </td>
-                          <td><button type="button" onclick="location.href = 'role-listing-info.php'" class="btn btn-success">Open</button></td>
-                        </tr>
-                        <tr>
-                          <td><h6>Financial Analyst</h6><p>Finance</p></td>
-                          <td>James Turner</td>
-                          <td>
-                            <div class="progress">
-                                <div class="progress-bar bg-danger" role="progressbar" style="width: 10%" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"></div>
-                            </div>
-                            <div class="text-danger"> 10% </div>
-                          </td>
-                          <td><button type="button" onclick="location.href = 'role-listing-info.php'" class="btn btn-success">Open</button></td>
-                        </tr>
-                        <tr>
-                          <td><h6>Content Creator</h6><p>Marketing</p></td>
-                          <td>Julie Tan</td>
-                          <td>
-                            <div class="progress">
-                                <div class="progress-bar bg-success" role="progressbar" style="width: 90%" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100"></div>
-                            </div>
-                            <div class="text-success"> 90% </div>
-                          </td>
-                          <td><button type="button" onclick="location.href = 'role-listing-info.php'" class="btn btn-warning">Draft</button></td>
-                        </tr>
-                        <tr>
-                          <td><h6>Data Analytics</h6><p>Strategy</p></td>
-                          <td>Tan Kim Seng</td>
-                          <td>
-                            <div class="progress">
-                                <div class="progress-bar bg-success" role="progressbar" style="width: 60%" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
-                            </div>
-                            <div class="text-success"> 60% </div>
-                          </td>
-                          <td><button type="button" onclick="location.href = 'staff-my-applications.php'" class="btn btn-danger">Applied</button></td>
-                        </tr>
-                        <tr>
-                          <td><h6>Graphic Designer</h6><p>Creative</p></td>
-                          <td>Lily Carter</td>
-                          <td>
-                            <div class="progress">
-                                <div class="progress-bar bg-danger" role="progressbar" style="width: 40%" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"></div>
-                            </div>
-                            <div class="text-danger"> 40% </div>
-                          </td>
-                          <td><button type="button" onclick="location.href = 'role-listing-info.php'" class="btn btn-success">Open</button></td>
-                        </tr>
-                        <tr>
-                          <td><h6>Health and Safety Officer</h6><p>Security</p></td>
-                          <td>David Sim</td>
-                          <td>
-                            <div class="progress">
-                                <div class="progress-bar bg-danger" role="progressbar" style="width: 10%" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"></div>
-                            </div>
-                            <div class="text-danger"> 10% </div>
-                          </td>
-                          <td><button type="button" onclick="location.href = 'role-listing-info.php'" class="btn btn-success">Open</button></td>
-                        </tr>
-                        <tr>
-                          <td><h6>Network Administrator</h6><p>IT</p></td>
-                          <td>Noah Evans</td>
-                          <td>
-                            <div class="progress">
-                                <div class="progress-bar bg-danger" role="progressbar" style="width: 10%" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"></div>
-                            </div>
-                            <div class="text-danger"> 10% </div>
-                          </td>
-                          <td><button type="button" onclick="location.href = 'role-listing-info.php'" class="btn btn-success">Open</button></td>
-                        </tr>
+                      </template>
                       </tbody>
                     </table>
                   </div>
@@ -225,7 +156,7 @@
       </div>
     </div>
   </div>
-
+</div>
 
   <!-- CUSTOM JS -->
   <script src="vendors/js/vendor.bundle.base.js"></script>
@@ -240,7 +171,8 @@
   <script src="js/jquery.cookie.js" type="text/javascript"></script>
   <script src="js/dashboard.js"></script>
   <script src="js/Chart.roundedBarCharts.js"></script>
+
+  <script src="staff-role-listing.js"></script>
 </body>
 
 </html>
-

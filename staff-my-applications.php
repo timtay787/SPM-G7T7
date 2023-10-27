@@ -4,7 +4,6 @@
   $email = 'megantan@gmail.com';
   $index = 'staff-profile.php'
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -227,8 +226,7 @@
   <script src="js/jquery.cookie.js" type="text/javascript"></script>
   <script src="js/dashboard.js"></script>
   <script src="js/Chart.roundedBarCharts.js"></script>
-  <script src="role_application.js"></script>
+  <script src="staff_role_application.js"></script>
 </body>
 
 </html>
-

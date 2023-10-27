@@ -21,6 +21,17 @@ const app = Vue.createApp({
         }
     },
     methods: {
+        // viewProfile(){
+        //     window.location.href = "staff-profile.html"
+        // },
+        // viewRoleListings(){
+        //     window.location.href = "staff-role-listing.html"
+        // },
+        // viewApplictions(){
+        //     window.location.href = "staff-my-apploications.html"
+        // }
+
+
 
     },
 

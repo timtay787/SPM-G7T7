@@ -182,6 +182,7 @@
   <script src="js/dashboard.js"></script>
   <script src="js/Chart.roundedBarCharts.js"></script>
   <script src="application_info.js"></script>
+  <script src="application_info.js"></script>
 </body>
 
 </html>

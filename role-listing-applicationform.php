@@ -4,7 +4,6 @@
   $email = 'megantan@gmail.com';
   $index = 'staff-profile.php'
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -152,7 +151,7 @@
                   <form class="forms-sample">
                     <div class="form-group">
                       <label for="exampleInputUsername1"></label>
-                      <input type="text" class="form-control" id="exampleInputUsername1" v-model="reason_for_application">
+                      <input type="text" class="form-control" id="reason_for_application" v-model="reason_for_application">
                     </div>
                     <!-- <div class="form-group">
                       <label for="exampleInputUsername1">Field1</label>

@@ -46,7 +46,6 @@
 
   #cetegory_select {
     width: 100%;
-    font-weight: bold;
     font-size: 16px;
     padding: 12px 20px 12px 40px;
     border: 1px solid #ddd;

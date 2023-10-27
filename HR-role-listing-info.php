@@ -24,10 +24,20 @@
   <link rel="stylesheet" href="vendors/datatables.net-bs4/dataTables.bootstrap4.css">
   <link rel="stylesheet" href="js/select.dataTables.min.css">
   <link rel="stylesheet" href="css/vertical-layout-light/style.css">
+
+  <!-- Vue 3 -->
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script> 
+
+  <!-- JQuery-->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+  <!-- SessionStorage-->
+  <script src="setSessionStorage.js"></script>
+
 </head>
 
 <body>
-
+<div id="app">
 <!-- TOP BAR -->
   <div class="container-scroller">
       <!-- LOGO-->
@@ -82,7 +92,7 @@
         <div class="content-wrapper">
           <div class="row">
 
-            <h1>Social Media Manager</h1>
+            <h1>{{role.role_name}}</h1>
             <h1> </h1>
             <button type="button" class="btn btn-primary">Edit Role Listing</button>
             <h1> </h1>
@@ -107,24 +117,28 @@
                         <table class="table">
                           <tr>
                             <th>Job Title</th>
-                            <td>Social Media Manager</td>
+                            <td>{{role.RoleName}}</td>
                           </tr>
                           <tr>
                             <th>Department</th>
-                            <td>Marketing</td>
+                            <td>{{manager.Department}}</td>
                           </tr>
                           <tr>
-                            <th>Country</th>
-                            <td>Singapore</td>
+                            <th>Job Location</th>
+                            <td>{{manager.BusinessAddress}}</td>
                           </tr>
                           <tr>
                             <th>Post Date</th>
-                            <td>19/06/2023</td>
+                            <td>{{open_date}}</td>
                           </tr>
                           <tr>
+                            <th>Closing Date</th>
+                            <td>{{close_date}}</td>
+                          </tr>
+                          <!-- <tr>
                             <th>Career Level</th>
                             <td>Entry</td>
-                          </tr>
+                          </tr> -->
                         </table>
                       </div>
                     </div>
@@ -141,15 +155,15 @@
                         <table class="table">
                           <tr>
                             <th>Name</th>
-                            <td>Jack Sock</td>
+                            <td>{{manager.StaffFirstName}} {{manager.StaffLastName}}</td>
                           </tr>
                           <tr>
                             <th>Position</th>
-                            <td>Head of Marketing</td>
+                            <td>{{position.RoleName}}</td>
                           </tr>
                           <tr>
                             <th>Email</th>
-                            <td>jacksock@allinone.com</td>
+                            <td>{{manager.Email}}</td>
                           </tr>
                         </table>
                       </div>
@@ -161,9 +175,9 @@
               <div class="card">
                   <div class="card-body">
                     <h4>Description</h4>
-                    <p>We're seeking a passionate and creative individual to join our team as an Entry-Level Social Media Manager. If you're excited about harnessing the power of social media to engage audiences, drive brand awareness, and contribute to meaningful causes, this is the perfect opportunity for you to kick-start your career.</p>
+                    <p>{{role_listing.RoleListingDescription}}</p>
                     </br>
-                    <h4>Responsibilities</h4>
+                    <!-- <h4>Responsibilities</h4>
                     <ul>
                         <li>Develop and implement social media content strategies across platforms, including Facebook, Twitter, Instagram, LinkedIn, and more.</li>
                         <li>Create and curate engaging and shareable content, including text, images, videos, and infographics.</li>
@@ -183,13 +197,10 @@
                         <li>Completion of Communication LMS modules</li>
                         <li>Strong team player with excellent collaboration skills.</li>
                     </ul>   
-                    </br>
+                    </br> -->
                     <h4>Skills</h4>
                     <div class="template-demo">
-                        <button type="button" class="btn btn-outline-primary btn-fw">Communication</button>
-                        <button type="button" class="btn btn-outline-primary btn-fw">Marketing</button>
-                        <button type="button" class="btn btn-outline-primary btn-fw">Content Creation</button>
-                        <button type="button" class="btn btn-outline-primary btn-fw">Social Media</button>
+                        <button type="button" class="btn btn-outline-primary btn-fw"  v-for="skill of skills">{{skill.SkillName}}</button>
                     </div>
                 </div>   
                 </div>
@@ -204,9 +215,9 @@
                     <table class="table table-striped">
                       <thead>
                         <tr>
-                          <th>
+                          <!-- <th>
                             Profile Picture
-                          </th>
+                          </th> -->
                           <th>
                             First Name
                           </th>
@@ -214,26 +225,26 @@
                             Last Name
                           </th>
                           <th>
-                            Country
+                            Email
                           </th>
                           <th>
                             Skills Match
                           </th>
                           <th>Application</th>
-                          <th>Results</th>
+                          <!-- <th>Results</th> -->
 
 
                         </tr>
                       </thead>
                       <tbody>
-                        <tr>
-                          <td class="py-1"><img src="images/faces/face2.jpg" alt="image"/></td>
-                          <td>Herman</td>
-                          <td>Tan</td>
-                          <td>Singapore</td>
-                          <td class="text-success"> 75% </td>
+                        <tr v-for="staff_application of staff_applications">
+                          <!-- <td class="py-1"><img src="images/faces/face2.jpg" alt="image"/></td> -->
+                          <td>{{staff_application.staff.StaffFirstName}}</td>
+                          <td>{{staff_application.staff.StaffLastName}}</td>
+                          <td>{{staff_application.staff.Email}}</td>
+                          <td class="text-success">{{staff_application.match_rate}}%</td>
                           <td><button type="button" onclick="location.href = 'HR-staff-profile.php'" class="btn btn-primary">View Profile</button><p> </p><button type="button" onclick="location.href = 'HR-application.php'" class="btn btn-primary">View Application</button></td>
-                          <td>
+                          <!-- <td>
                             <div class="dropdown">
                                 <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                                 Pending
@@ -243,102 +254,7 @@
                                     <a class="dropdown-item" href="#">Reject</a>
                                 </div>
                             </div>
-                        </td>
-                        </tr>
-                        <tr>
-                          <td class="py-1"><img src="images/faces/face3.jpg" alt="image"/></td>
-                          <td>Mervyn</td>
-                          <td>Yeo</td>
-                          <td>Singapore</td>
-                          <td class="text-success"> 90% </td>
-                          <td><button type="button" onclick="location.href = 'HR-staff-profile.php'" class="btn btn-primary">View Profile</button><p> </p><button type="button" onclick="location.href = 'HR-application.php'" class="btn btn-primary">View Application</button></td>
-                          <td>
-                            <div class="dropdown">
-                                <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                Pending
-                                </button>
-                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                    <a class="dropdown-item" href="#">Accept</a>
-                                    <a class="dropdown-item" href="#">Reject</a>
-                                </div>
-                            </div>
-                        </td>
-                        </tr>
-                        <tr>
-                          <td class="py-1"><img src="images/faces/face4.jpg" alt="image"/></td>
-                          <td>Alice</td>
-                          <td>Ng</td>
-                          <td>Singapore</td>
-                          <td class="text-success"> 60 </td>
-                          <td><button type="button" onclick="location.href = 'HR-staff-profile.php'" class="btn btn-primary">View Profile</button><p> </p><button type="button" onclick="location.href = 'HR-application.php'" class="btn btn-primary">View Application</button></td>
-                          <td>
-                            <div class="dropdown">
-                                <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                Pending
-                                </button>
-                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                    <a class="dropdown-item" href="#">Accept</a>
-                                    <a class="dropdown-item" href="#">Reject</a>
-                                </div>
-                            </div>
-                        </td>
-                        </tr>
-                        <tr>
-                          <td class="py-1"><img src="images/faces/face5.jpg" alt="image"/></td>
-                          <td>Max</td>
-                          <td>Smith</td>
-                          <td>Singapore</td>
-                          <td class="text-success"> 85% </td>
-                          <td><button type="button" onclick="location.href = 'HR-staff-profile.php'" class="btn btn-primary">View Profile</button><p> </p><button type="button" onclick="location.href = 'HR-application.php'" class="btn btn-primary">View Application</button></td>
-                          <td>
-                            <div class="dropdown">
-                                <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                Pending
-                                </button>
-                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                    <a class="dropdown-item" href="#">Accept</a>
-                                    <a class="dropdown-item" href="#">Reject</a>
-                                </div>
-                            </div>
-                        </td>
-                        </tr>
-                        <tr>
-                          <td class="py-1"><img src="images/faces/face6.jpg" alt="image"/></td>
-                          <td>Ethan</td>
-                          <td>Murray</td>
-                          <td>USA</td>
-                          <td class="text-danger"> 10% </td>
-                          <td><button type="button" onclick="location.href = 'HR-staff-profile.php'" class="btn btn-primary">View Profile</button><p> </p><button type="button" onclick="location.href = 'HR-application.php'" class="btn btn-primary">View Application</button></td>
-                          <td>
-                            <div class="dropdown">
-                                <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                Pending
-                                </button>
-                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                    <a class="dropdown-item" href="#">Accept</a>
-                                    <a class="dropdown-item" href="#">Reject</a>
-                                </div>
-                            </div>
-                        </td>
-                        </tr>
-                        <tr>
-                          <td class="py-1"><img src="images/faces/face7.jpg" alt="image"/></td>
-                          <td>Herman</td>
-                          <td>Tan</td>
-                          <td>Singapore</td>
-                          <td class="text-warning"> 50% </td>
-                          <td><button type="button" onclick="location.href = 'HR-staff-profile.php'" class="btn btn-primary">View Profile</button><p> </p><button type="button" onclick="location.href = 'HR-application.php'" class="btn btn-primary">View Application</button></td>
-                          <td>
-                            <div class="dropdown">
-                                <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                Pending
-                                </button>
-                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                    <a class="dropdown-item" href="#">Accept</a>
-                                    <a class="dropdown-item" href="#">Reject</a>
-                                </div>
-                            </div>
-                        </td>
+                        </td> -->
                         </tr>
                       </tbody>
                     </table>
@@ -356,6 +272,8 @@
     </div>
   </div>
 
+</div>
+
 
   <!-- CUSTOM JS -->
   <script src="vendors/js/vendor.bundle.base.js"></script>
@@ -370,6 +288,8 @@
   <script src="js/jquery.cookie.js" type="text/javascript"></script>
   <script src="js/dashboard.js"></script>
   <script src="js/Chart.roundedBarCharts.js"></script>
+
+  <script src="role_listing_info.js"></script>
 </body>
 
 </html>

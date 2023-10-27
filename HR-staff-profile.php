@@ -4,7 +4,6 @@
   $email = 'HR@gmail.com';
   $index = 'staff-profile.php'
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -24,9 +23,18 @@
   <link rel="stylesheet" href="vendors/datatables.net-bs4/dataTables.bootstrap4.css">
   <link rel="stylesheet" href="js/select.dataTables.min.css">
   <link rel="stylesheet" href="css/vertical-layout-light/style.css">
+  <!-- Vue 3 -->
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script> 
+
+  <!-- JQuery-->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+  <!-- SessionStorage-->
+  <script src="setSessionStorage.js"></script>
 </head>
 
 <body>
+<div id="app">
 
 <!-- TOP BAR -->
   <div class="container-scroller">
@@ -85,17 +93,17 @@
             <div class="col-md-8 grid-margin stretch-card">
               <div class="card">
                 <div class="row">
-                  <div class="col-md-4">
+                  <!-- <div class="col-md-4">
                     <div class="card-body">
                     <h4 class="card-title">Staff Information</h4>
                     <div class="template-demo d-flex justify-content-between flex-nowrap">
                       <img src="images/faces/profile.png" style="border-radius: 100%; max-width: 100%; height: auto;">
                     </div>
                   </div>
-                  </div> 
-                  <div class="col-md-8">
+                  </div>  -->
+                  <div class="col-md-12">
                     <div class="card-body">
-                      <h4 class="card-title">  </h4>
+                      <h4 class="card-title">Staff Information</h4>
                       
                       <div class="table-responsive">
                         <table class="table">
@@ -103,27 +111,27 @@
                           <!-- staff.py : Retrieves a staff based on staff_id -->
                           <tr>
                             <th>Staff ID</th>
-                            <td>003</td>
+                            <td>{{staff.StaffID}}</td>
                           </tr>
                           <tr>
                             <th>First Name</th>
-                            <td>Megan</td>
+                            <td>{{staff.StaffFirstName}}</td>
                           </tr>
                           <tr>
                             <th>Last Name</th>
-                            <td>Tan</td>
+                            <td>{{staff.StaffLastName}}</td>
                           </tr>
                           <tr>
                             <th>Email Address</th>
-                            <td>megantan@gmail.com</td>
+                            <td>{{staff.Email}}</td>
                           </tr>
                           <tr>
                             <th>Phone Number</th>
-                            <td>+65 1234 5680</td>
+                            <td>{{staff.Phone}}</td>
                           </tr>
                           <tr>
                             <th>Business Address</th>
-                            <td>81 VICTORIA STREET, SINGAPORE 123456</td>
+                            <td>{{staff.BusinessAddress}}</td>
                           </tr>
                         </table>
                       </div>
@@ -141,28 +149,28 @@
                           <!-- staff.py : Retrieves the reporting officer of a staff based on staff_id -->
                           <tr>
                             <th>Reporting Manager</th>
-                            <td>Daniel Heng</td>
+                            <td>{{manager.StaffFirstName}} {{manager.StaffLastName}}</td>
                           </tr>
                           <!-- staff.py : Retrieves the department of staff based on staff_id (need microservice for this)-->
                           <tr>
                             <th>Department</th>
-                            <td>IT</td>
+                            <td>{{staff.Department}}</td>
                           </tr>
                           <!-- staff.py : Retrieves roles that a staff has based on staff_id -->
                           <tr>
                             <th>Role(s)</th>
-                            <td>Information Technology Team [Primary]</td>
+                            <td>{{p_role.RoleName}} [Primary]</td>
                           </tr>
                           <tr>
                             <th> </th>
-                            <td> Data Analyst [Secondary]</td>
+                            <td v-for="role in s_roles">{{role.RoleName}} [Secondary]</td>
                           </tr>
                         </table>
                       </div>
                     </div>
                   </div>
                 </div>
-                <div class = "row">
+                <!-- <div class = "row">
                   <div class="col-md-12">
                     <div class="card-body">
                       <h4 class="card-title">Staff Information</h4>
@@ -171,7 +179,7 @@
                       <button type="button" class="btn btn-outline-primary btn-fw">Edit</button>
                     </div>
                   </div>
-                </div>
+                </div> -->
               </div>
             </div>
 
@@ -181,28 +189,20 @@
                   <!-- staff.py : Retrieves skills that a staff has based on staff_id and status == active -->
                   <h4 class="card-title">Active Skills</h4>
                   <div class="template-demo">
-                    <button type="button" class="btn btn-outline-primary btn-fw">C++</button>
-                    <button type="button" class="btn btn-outline-primary btn-fw">Powerpoint</button>
-                    <button type="button" class="btn btn-outline-primary btn-fw">Java</button>
-                    <button type="button" class="btn btn-outline-primary btn-fw">Python</button>
-                    <button type="button" class="btn btn-outline-primary btn-fw">Word</button>
-                    <button type="button" class="btn btn-outline-primary btn-fw">Team Leadership</button>
-                    <button type="button" class="btn btn-outline-primary btn-fw">Communication</button>
+                    <button type="button" class="btn btn-outline-primary btn-fw" v-for="skill in active_skills">{{skill.SkillName}}</button>
                   </div>
                   <!-- staff.py : Retrieves skills that a staff has based on staff_id and status == inactive -->
                   <h1 class="card-title">   </h1>
                   <h1 class="card-title">   </h1>
-                  <h4 class="card-title">Inactive Skills</h4>
+                  <h4 class="card-title">Unverified / In-Progress Skills</h4>
                   <div class="template-demo">
-                    <button type="button" class="btn btn-outline-primary btn-fw">Marketing</button>
-                    <button type="button" class="btn btn-outline-primary btn-fw">Content Creation</button>
-                    <button type="button" class="btn btn-outline-primary btn-fw">Social Media</button>
+                    <button type="button" class="btn btn-outline-primary btn-fw" v-for="skill in inactive_skills">{{skill.SkillName}}</button>
                   </div>
                 </div>
               </div>
             </div>
           <!-- do we need this -->
-            <div class="col-12 grid-margin stretch-card">
+            <!-- <div class="col-12 grid-margin stretch-card">
               <div class="card">
                   <div class="card-body">
                     <h4 class="card-title">Learning Management System History</h4>
@@ -260,14 +260,14 @@
                   </div>
                 </div>
               </div>
-            </div>
+            </div> -->
           </div>
         </div>
       </div>
       <!-- main panel ends here -->
     </div>
   </div>
-
+</div>
 
   <!-- CUSTOM JS -->
   <script src="vendors/js/vendor.bundle.base.js"></script>
@@ -282,7 +282,7 @@
   <script src="js/jquery.cookie.js" type="text/javascript"></script>
   <script src="js/dashboard.js"></script>
   <script src="js/Chart.roundedBarCharts.js"></script>
+  <script src="staff_info.js"></script>
 </body>
 
 </html>
-

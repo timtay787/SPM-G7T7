@@ -18,6 +18,7 @@ const app = Vue.createApp({
             position: {},
             staff_match: [],
             staff: {},
+            skills_needed: [],
         }
     },
     methods: {
@@ -100,6 +101,7 @@ const app = Vue.createApp({
             }
 
             //Get skills of staff
+            console.log(this.staff_id + ' staff id')
             var serviceURL4 = 'http://localhost:5000/staff/skillsofstaff/'+this.staff_id;
             try {
                 const response4 =
@@ -108,8 +110,11 @@ const app = Vue.createApp({
                     );
                 const result4 = await response4.json();
                 if (response4.status == 200){
+                    console.log(result4.data.staff_skills)
                     var staff_skills = result4.data.staff_skills
+                    console.log(staff_skills + 'staff skills')
                 }
+                
             }
             catch (error) {
                 console.log('Error in processing the skills of staff.')
@@ -123,6 +128,7 @@ const app = Vue.createApp({
             // HELP: the outer for loop won't loop, the inner one (skill match rate) okay
             for (var i=0; i<role_listing.role_listing.length; i++){
                 console.log(i)
+                // get skills needed for that particular role in role_listing
                 var serviceURL5 = 'http://localhost:5001/role/skill/'+JSON.stringify(this.role_listing.role_listing[i].RoleID);
                 try {
                     const response5 =
@@ -138,6 +144,10 @@ const app = Vue.createApp({
                     console.log('Error in processing the request.')
                 }
                 console.log(skills)
+                // push into a neat array
+                // reset skills_needed
+                this.skills_needed = []
+                console.log('skill length: ' + skills.length)
                 for (var j=0; j<skills.length; j++){
                     var skillid = skills[j].SkillID
                     console.log(skillid)
@@ -150,7 +160,8 @@ const app = Vue.createApp({
                         const result6 = await response6.json();
                         if (response6.status == 200){
                             var skill = result6.data
-                            this.skills.push(skill)
+                            this.skills_needed.push(skill.SkillID)
+                            console.log(this.skills_needed)
                         }
                     }
                     catch (error) {
@@ -161,16 +172,16 @@ const app = Vue.createApp({
                 //Get skill match rate
                 var skill_match = 0
                 for (var j=0; j<staff_skills.length; j++){
-                    for (var k=0; k<this.skills.length; k++){
-                        if (staff_skills[j].SkillID == this.skills[k].SkillID){
+                    for (var k=0; k<this.skills_needed.length; k++){
+                        if (staff_skills[j].SkillID == this.skills_needed[k]){
                             skill_match += 1
                         }
                     }
                 }
-                match_rate = Math.floor((skill_match / this.skills.length) * 100)
+                match_rate = Math.floor((skill_match / this.skills_needed.length) * 100)
                 console.log(match_rate)
-                this.staff_match.push({'match_rate': match_rate})
-                console.log(this.staff_match[0])
+                this.staff_match.push({'match_rate': match_rate, 'skills_needed': JSON.stringify(this.skills_needed)})
+                console.log(this.staff_match)
             }
         })
     },

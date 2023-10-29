@@ -131,16 +131,18 @@
                         <tr v-for = "(value, key, index) in role_listing_a">
                           <!-- the below I assume that in role, the RoleID will always be the index-1 -->
                           <td>
-                          <h6>{{role.role[value.RoleID-1].RoleName}}</h6>
+                          
+                          <h6>{{role.role[value.RoleID-1].RoleName}} <!--{{key}}--></h6>
                           <!--Assume that department is same as the hiring manager-->
                           <p>{{manager.staff[value.RoleListingCreator-1].Department}}</p>
                           </td>
                           <td>{{manager.staff[value.RoleListingCreator-1].StaffFirstName}} {{manager.staff[value.RoleListingCreator-1].StaffLastName}}</td>
                           <td>
                             <div class="progress">
-                                <div class="progress-bar bg-success" role="progressbar" style="width: 80%" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
+                              <div class="progress-bar bg-success" role="progressbar" v-bind:style="{'width': staff_match[key].match_rate + '%'}" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
+                                <!--<div class="progress-bar bg-success" role="progressbar" style="width: 100%" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>-->
                             </div>
-                            <div class="text-success"> {{staff_match.match_rate}}% </div>
+                            <div class="text-success"> {{staff_match[key].match_rate}}% </div>
                           </td>
                           <td><button type="button" onclick="location.href = 'role-listing-info.php'" class="btn btn-success">Open</button></td>
                         </tr>

@@ -83,7 +83,7 @@
         <div class="content-wrapper">
           <div class="row">
           <br>
-            <h1>This is Megan's application for</h1>
+            <h1>This is 's application for</h1>
         <br>
           <div class="col-md-12 grid-margin stretch-card">
               <div class="card">

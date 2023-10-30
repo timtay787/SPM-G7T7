@@ -212,7 +212,7 @@
                             </div>
                             <div class="text-danger"> 10% </div>
                           </td>
-                          <td><button type="button" onclick="location.href = 'role-listing-info.php'" class="btn btn-success">Open</button></td>
+                          <td><button type="button" onclick="location.href = 'role-listing-info.php'; sessionStorage.js" class="btn btn-success">Open</button></td>
                         </tr>
                       </tbody>
                     </table>

@@ -2,10 +2,11 @@
 const app = Vue.createApp({
     data() {
         return {
+            is_hr: sessionStorage.getItem('is_hr'),
             role_listing_id: sessionStorage.getItem('role_listing_id'),
+            staff_id: sessionStorage.getItem('staff_id'),
             role_id: 0,
             role_listing: {},
-            applications: [],
             role: {},
             role_listing_source: 0,
             manager: {},
@@ -15,7 +16,7 @@ const app = Vue.createApp({
             close_date: '',
             skills: [],
             position: {},
-            staff_applications: [],
+            skillsmatch: 0,
       
         }
     },
@@ -44,24 +45,6 @@ const app = Vue.createApp({
                     this.open_date = this.role_listing_open.getDate() + '/' + (this.role_listing_open.getMonth()+1) + '/' + this.role_listing_open.getFullYear()
                     this.role_listing_close = new Date(role_listing.RoleListingClose)
                     this.close_date = this.role_listing_close.getDate() + '/' + (this.role_listing_close.getMonth()+1) + '/' + this.role_listing_close.getFullYear()
-                }
-            }
-            catch (error) {
-                console.log('Error in processing the request.')
-            }
-
-            //Get applications for role listing
-            var serviceURL2 = 'http://localhost:5004/role_application/listing/'+this.role_listing_id;
-            try {
-                const response2 =
-                    await fetch(
-                        serviceURL2, {method: 'GET'}
-                    );
-                const result2 = await response2.json();
-                if (response2.status == 200){
-                    var applications = result2.data.application
-                    console.log(applications)
-                    this.applications = applications
                 }
             }
             catch (error) {
@@ -172,53 +155,46 @@ const app = Vue.createApp({
                 console.log('Error in processing the request.')
             }
 
-            // Get applying staff member information
-            for (var i=0; i<this.applications.length; i++){
-                var serviceURL9 = 'http://localhost:5000/staff/'+this.applications[i].StaffID;
-                try {
-                    const response9 =
-                        await fetch(
-                            serviceURL9, {method: 'GET'}
-                        );
-                    const result9 = await response9.json();
-                    if (response9.status == 200){
-                        var staff = result9.data
-                        var staffid = staff.StaffID
-                    }
-                }
-                catch (error) {
-                    console.log('Error in processing the request.')
-                }
 
-                var serviceURL10 = 'http://localhost:5000/staff/skillsofstaff/'+staffid;
-                try {
-                    const response10 =
-                        await fetch(
-                            serviceURL10, {method: 'GET'}
-                        );
-                    const result10 = await response10.json();
-                    if (response10.status == 200){
-                        var staff_skills = result10.data.staff_skills
+            // Get skill match for staff members
+            var serviceURL11 = 'http://localhost:5000/staff/skillsofstaff/'+this.staff_id;
+            try {
+                const response11 =
+                    await fetch(
+                        serviceURL11, {method: 'GET'}
+                    );
+                const result11 = await response11.json();
+                if (response11.status == 200){
+                    var staff_skills = result11.data.staff_skills
+                }
+            }
+            catch (error) {
+                console.log('Error in processing the request.')
+            }
+            var skill_match = 0
+            for (var j=0; j<staff_skills.length; j++){
+                for (var k=0; k<this.skills.length; k++){
+                    if (staff_skills[j].SkillID == this.skills[k].SkillID){
+                        skill_match += 1
                     }
                 }
-                catch (error) {
-                    console.log('Error in processing the request.')
-                }
-
-                var skill_match = 0
-                for (var j=0; j<staff_skills.length; j++){
-                    for (var k=0; k<this.skills.length; k++){
-                        if (staff_skills[j].SkillID == this.skills[k].SkillID){
-                            skill_match += 1
-                        }
-                    }
-                }
-                match_rate = Math.floor((skill_match / this.skills.length) * 100)
-                this.staff_applications.push({'staff': staff, 'match_rate': match_rate, 'application': this.applications[i]})
+            }
+            console.log(skill_match)
+            if (skill_match == 0){
+                this.skillsmatch = 0
+            }
+            else{
+                this.skillsmatch = Math.floor((skill_match / this.skills.length) * 100) 
             }
 
         })
     },
+
+    computed:{
+        is_open(){
+            return (new Date(this.role_listing.RoleListingClose)).getTime() > (new Date().getTime())
+        }
+    }
 
 })
 

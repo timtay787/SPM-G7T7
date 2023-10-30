@@ -1,3 +1,10 @@
+<?php 
+  // $name = $_SESSION['userid'];
+  $name = 'HR123';
+  $email = 'HR@gmail.com';
+  $index = 'staff-profile.php'
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -17,14 +24,16 @@
   <link rel="stylesheet" href="vendors/datatables.net-bs4/dataTables.bootstrap4.css">
   <link rel="stylesheet" href="js/select.dataTables.min.css">
   <link rel="stylesheet" href="css/vertical-layout-light/style.css">
+  
   <!-- Vue 3 -->
   <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script> 
 
   <!-- JQuery-->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
+  <!-- SessionStorage-->
   <style>
-  #myInput {
+      #myInput {
     background-image: url('/images/searchicon.png');
     background-size: 25px;
     background-position: 10px 10px;
@@ -43,7 +52,6 @@
     margin-bottom: 10px;
   }
   </style>
-
 </head>
 
 <body>
@@ -59,10 +67,10 @@
           </button>
         </div>
         <div>
-          <a class="navbar-brand brand-logo">
+          <a class="navbar-brand brand-logo" href="staff-profile.php">
             <img src="images/logo.png" alt="logo" />
           </a>
-          <a class="navbar-brand brand-logo-mini">
+          <a class="navbar-brand brand-logo-mini" href="staff-profile.php">
             <img src="images/logo-mini.png" alt="logo" />
           </a>
         </div>
@@ -71,7 +79,7 @@
       <!-- WELCOME ADMIN -->
         <ul class="navbar-nav">
           <li class="nav-item font-weight-semibold d-none d-lg-block ms-0">
-            <h1 class="welcome-text">Hello, <span class="text-black fw-bold"></span></h1>
+            <h1 class="welcome-text">Hello, <span class="text-black fw-bold"><?php echo $name?></span></h1>
             <h3 class="welcome-sub-text">Welcome to All-In-One Connect.</h3>
           </li>
         </ul>
@@ -83,47 +91,34 @@
       <nav class="sidebar sidebar-offcanvas" id="sidebar">
         <ul class="nav">
           <li class="nav-item">
-            <a class="nav-link" href="staff-profile.html" aria-expanded="false" aria-controls="form-elements">
+            <a class="nav-link" href="HR-staff-list.php" aria-expanded="false" aria-controls="form-elements">
               <i class="menu-icon mdi mdi-account-circle-outline"></i>
-              <span class="menu-title">Profile</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="staff-role-listing.html" aria-expanded="false" aria-controls="form-elements">
-              <i class="menu-icon mdi mdi-note-plus-outline"></i>
-              <span class="menu-title">Apply for Role</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="staff-my-applications.html">
-              <i class="mdi mdi-grid-large menu-icon"></i>
-              <span class="menu-title">Your Applications</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="HR-staff-list.html" aria-expanded="false" aria-controls="form-elements">
-              <i class="menu-icon mdi mdi-account-group"></i>
               <span class="menu-title">Staff Members</span>
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="HR-role-listings.html" aria-expanded="false" aria-controls="form-elements">
+            <a class="nav-link" href="HR-role-listings.php" aria-expanded="false" aria-controls="form-elements">
               <i class="menu-icon mdi mdi-card-text-outline"></i>
-              <span class="menu-title">View Role Listings</span>
+              <span class="menu-title">Role Listings</span>
             </a>
           </li>
         </ul>
       </nav>
       
       <!-- MAIN PANEL -->
-      <div class="main-panel">
+<!-- MAIN PANEL -->
+<div class="main-panel">
         <div class="content-wrapper">
           <div class="row">
-            <div class="col-lg-12 grid-margin stretch-card">
-              <div class="card">
+          <!-- <h2 class="text-black fw-bold">Role Listings</h2> -->
+          <td><button type="button" onclick="location.href = 'HR-add-new.php'" class="btn btn-primary">Add New</button></td>
+          <h2> </h2>
+          <h2 class="text-black fw-bold"> </h2>
+          <div class="col-lg-12 grid-margin stretch-card">              
+            <div class="card">
                 <div class="card-body">
                   <div class="row">
-                    <div class="col-md-6"><h4 class="card-title">Staff List</h4></div>
+                    <div class="col-md-6"><h4 class="card-title">Role Listings</h4></div>
                     <div class="col-md-6">
                     <div class = row>
                       <div class = col-md-4>
@@ -131,46 +126,33 @@
                       </div>
                       <div class = col-md-2>
                         <select name="cars" id="category_select">
-                        <option value="0">Name</option>
+                        <option value="0">Job Title</option>
                         <option value="1">Department</option>
-                        <option value="2">Business Address</option>
+                        <option value="2">Hiring Manager</option>
                       </select>
                       </div>
                     </div>
                   </div>
                   </div>
-                  
                   <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for names.." title="Type in a name">
                   <div class="table-responsive">
-                    <table class="table table-striped">
+                    <table class="table table-hover">
                       <thead>
                         <tr>
-                          <!-- <th>
-                            Profile Picture
-                          </th> -->
-                          <th>
-                            Name
-                          </th>
-                          <th>
-                            Department
-                          </th>
-                          <th>
-                            Email
-                          </th>
-                          <th>
-                            Business Address
-                          </th>
-                          <th></th>
+                          <th><h6>Job Title</h6></th>
+                          <th>Department</th>
+                          <th>Hiring Manager</th>
+                          <th>No. of Applications</th>
+                          <th>Status</th>
                         </tr>
                       </thead>
                       <tbody id="myTable">
-                        <tr v-for="staff in staff_members">
-                          <!-- <td class="py-1"><img src="images/faces/face2.jpg" alt="image"/></td> -->
-                          <td>{{staff.StaffFirstName}} {{staff.StaffLastName}}</td>
-                          <td>{{staff.Department}}</td>
-                          <td>{{staff.Email}}</td>
-                          <td>{{staff.BusinessAddress}}</td>
-                          <td><button type="button" v-bind:name="staff.StaffID" onclick="location.href = 'HR-staff-profile.html'; sessionStorage.setItem('staff_lookup_id', name)" class="btn btn-success">View Profile</button></td>
+                        <tr v-for="info in role_listing_info">
+                          <td><h6>{{info.role.RoleName}}</h6></td>
+                          <td>{{info.hiring_manager.Department}}</td>
+                          <td>{{info.hiring_manager.StaffFirstName}} {{info.hiring_manager.StaffLastName}}</td>
+                          <td>{{info.no_of_applications}}</td>
+                          <td><button type="button" v-bind:name="info.role_listing.RoleListingID" onclick="location.href = 'HR-role-listing-info.php'; sessionStorage.setItem('role_listing_id', name)" class="btn btn-outline-primary btn-fw">View</button></td>
                         </tr>
                       </tbody>
                     </table>
@@ -179,18 +161,7 @@
               </div>
             </div>
           </div>
-        </div>
-        <!-- content-wrapper ends -->
-        <!-- partial:../../partials/_footer.html -->
-        <footer class="footer">
-          <div class="d-sm-flex justify-content-center justify-content-sm-between">
-            <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">Premium <a href="https://www.bootstrapdash.com/" target="_blank">Bootstrap admin template</a> from BootstrapDash.</span>
-            <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center">Copyright © 2021. All rights reserved.</span>
-          </div>
-        </footer>
-        <!-- partial -->
       </div>
-      <!-- main-panel ends -->
       <!-- main panel ends here -->
     </div>
   </div>
@@ -209,9 +180,9 @@
   <script src="js/jquery.cookie.js" type="text/javascript"></script>
   <script src="js/dashboard.js"></script>
   <script src="js/Chart.roundedBarCharts.js"></script>
-  <script src="vuejs/HR_staff_list.js"></script>
+  <script src="HR-role-listing.js"></script>
 
-  <script>
+    <script>
     function myFunction() {
       var input, filter, table, tr, td, i, txtValue;
       input = document.getElementById("myInput");
@@ -236,4 +207,6 @@
 </body>
 
 </html>
+
+
 

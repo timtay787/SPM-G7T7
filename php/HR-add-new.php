@@ -1,3 +1,11 @@
+
+<?php 
+  // $name = $_SESSION['userid'];
+  $name = 'HR123';
+  $email = 'HR@gmail.com';
+  $index = 'staff-profile.php'
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -24,6 +32,9 @@
   <!-- JQuery-->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
+  <!-- SessionStorage-->
+  <script src="setSessionStorage.js"></script>
+
 
 </head>
 
@@ -40,10 +51,10 @@
           </button>
         </div>
         <div>
-          <a class="navbar-brand brand-logo">
+          <a class="navbar-brand brand-logo" href="staff-profile.php">
             <img src="images/logo.png" alt="logo" />
           </a>
-          <a class="navbar-brand brand-logo-mini">
+          <a class="navbar-brand brand-logo-mini" href="staff-profile.php">
             <img src="images/logo-mini.png" alt="logo" />
           </a>
         </div>
@@ -52,7 +63,7 @@
       <!-- WELCOME ADMIN -->
         <ul class="navbar-nav">
           <li class="nav-item font-weight-semibold d-none d-lg-block ms-0">
-            <h1 class="welcome-text">Hello, <span class="text-black fw-bold"></span></h1>
+            <h1 class="welcome-text">Hello, <span class="text-black fw-bold"><?php echo $name?></span></h1>
             <h3 class="welcome-sub-text">Welcome to All-In-One Connect.</h3>
           </li>
         </ul>
@@ -64,33 +75,15 @@
       <nav class="sidebar sidebar-offcanvas" id="sidebar">
         <ul class="nav">
           <li class="nav-item">
-            <a class="nav-link" href="staff-profile.html" aria-expanded="false" aria-controls="form-elements">
+            <a class="nav-link" href="HR-staff-list.php" aria-expanded="false" aria-controls="form-elements">
               <i class="menu-icon mdi mdi-account-circle-outline"></i>
-              <span class="menu-title">Profile</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="staff-role-listing.html" aria-expanded="false" aria-controls="form-elements">
-              <i class="menu-icon mdi mdi-note-plus-outline"></i>
-              <span class="menu-title">Apply for Role</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="staff-my-applications.html">
-              <i class="mdi mdi-grid-large menu-icon"></i>
-              <span class="menu-title">Your Applications</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="HR-staff-list.html" aria-expanded="false" aria-controls="form-elements">
-              <i class="menu-icon mdi mdi-account-group"></i>
               <span class="menu-title">Staff Members</span>
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="HR-role-listings.html" aria-expanded="false" aria-controls="form-elements">
+            <a class="nav-link" href="HR-role-listings.php" aria-expanded="false" aria-controls="form-elements">
               <i class="menu-icon mdi mdi-card-text-outline"></i>
-              <span class="menu-title">View Role Listings</span>
+              <span class="menu-title">Role Listings</span>
             </a>
           </li>
         </ul>
@@ -162,7 +155,7 @@
   <script src="js/dashboard.js"></script>
   <script src="js/Chart.roundedBarCharts.js"></script>
 
-  <script src="vuejs/role_listing_form.js"></script>  
+  <script src="role_listing_form.js"></script>  
 </body>
 
 </html>

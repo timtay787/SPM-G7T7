@@ -248,7 +248,8 @@ INSERT INTO role_listing_DB.role_listings VALUES
 
 (001, 002, 'Responsibilities for this role include:', 006, '2023-09-01', '2024-02-01', 003, timestamp("2023-09-01"), 003, timestamp("2023-09-05")),
 (002, 014, 'Responsibilities for this role include:', 005, '2023-09-01', '2024-02-01', 003, timestamp("2023-09-01"), 003, timestamp("2023-09-02")),
-(003, 015, 'Responsibilities for this role include:', 008, '2023-09-01', '2024-02-01', 003, timestamp("2023-09-01"), 000, '');
+(003, 015, 'Responsibilities for this role include:', 008, '2023-09-01', '2023-10-08', 003, timestamp("2023-09-01"), 000, ''),
+(020, 002, 'Responsibilities for this role include:', 008, '2024-09-01', '2024-10-08', 003, timestamp("2023-09-01"), 000, '');
 
 -- create candidate table
 create table role_listing_DB.candidates

@@ -1,0 +1,86 @@
+version: "3.8"
+
+services:
+  ##########
+  # Microservice Port Numbers
+  # Staff : 5000
+  # Role : 5001
+  # Skill : 5002
+  # Role Listing : 5003
+  # Role Application : 5004
+  ##########
+
+  #################################################################################################################################
+  # Microservice for the staff database, contains staff_details, staff_role, staff_skills and staff_reporting_officers tables
+  #################################################################################################################################
+  staff:
+    build:
+      context: ./
+      dockerfile: staff.Dockerfile
+    image: timtay/staff:0.1
+    restart: always
+    environment:
+      dbURL: mysql+mysqlconnector://sbrp@host.docker.internal:3306/staff_db
+      PYTHONUNBUFFERED: 1
+    ports:
+      - "5000:5000"
+ 
+  #######################################################################################
+  # Microservice for the role database, contains role_details and role_skills tables
+  #######################################################################################
+  role:
+    build:
+      context: ./
+      dockerfile: role.Dockerfile
+    image: timtay/role:0.1
+    restart: always
+    environment:
+      dbURL: mysql+mysqlconnector://sbrp@host.docker.internal:3306/role_db
+      PYTHONUNBUFFERED: 1
+    ports:
+      - "5001:5001"
+
+  ####################################################################
+  # Microservice for the skill database, contains skill_details tables
+  ####################################################################
+  skill:
+    build:
+      context: ./
+      dockerfile: skill.Dockerfile
+    image: timtay/skill:0.1
+    restart: always
+    environment:
+      dbURL: mysql+mysqlconnector://sbrp@host.docker.internal:3306/skill_db
+      PYTHONUNBUFFERED: 1
+    ports:
+      - "5002:5002"
+
+  ###############################################################################
+  # Microservice for the Role Listing, contains role_listing and candidate tables
+  ###############################################################################
+  role_listing:
+    build:
+      context: ./
+      dockerfile: role_listing.Dockerfile
+    image: timtay/role_listing:0.1
+    restart: always
+    environment:
+      dbURL: mysql+mysqlconnector://sbrp@host.docker.internal:3306/role_listing_db
+      PYTHONUNBUFFERED: 1
+    ports:
+      - "5003:5003"
+
+  ########################################################################
+  # Microservice for the role appliction database, role_application tables
+  ########################################################################
+  role_application:
+    build:
+      context: ./
+      dockerfile: role_application.Dockerfile
+    image: timtay/role_application:0.1
+    restart: always
+    environment:
+      dbURL: mysql+mysqlconnector://sbrp@host.docker.internal:3306/application_db
+      PYTHONUNBUFFERED: 1
+    ports:
+      - "5004:5004"

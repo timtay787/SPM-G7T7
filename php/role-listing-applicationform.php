@@ -1,3 +1,10 @@
+<?php 
+  // $name = $_SESSION['userid'];
+  $name = 'Megan Tan';
+  $email = 'megantan@gmail.com';
+  $index = 'staff-profile.php'
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -24,9 +31,13 @@
   <!-- JQuery-->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
+  <!-- SessionStorage-->
+  <script src="setSessionStorage.js"></script>
+
 </head>
 
 <body>
+
 <div id="app">
 
 <!-- TOP BAR -->
@@ -40,10 +51,10 @@
           </button>
         </div>
         <div>
-          <a class="navbar-brand brand-logo">
+          <a class="navbar-brand brand-logo" href="staff-profile.php">
             <img src="images/logo.png" alt="logo" />
           </a>
-          <a class="navbar-brand brand-logo-mini">
+          <a class="navbar-brand brand-logo-mini" href="staff-profile.php">
             <img src="images/logo-mini.png" alt="logo" />
           </a>
         </div>
@@ -52,7 +63,7 @@
       <!-- WELCOME ADMIN -->
         <ul class="navbar-nav">
           <li class="nav-item font-weight-semibold d-none d-lg-block ms-0">
-            <h1 class="welcome-text">Hello, <span class="text-black fw-bold"></span></h1>
+            <h1 class="welcome-text">Hello, <span class="text-black fw-bold"><?php echo $name?></span></h1>
             <h3 class="welcome-sub-text">Welcome to All-In-One Connect.</h3>
           </li>
         </ul>
@@ -64,45 +75,32 @@
       <nav class="sidebar sidebar-offcanvas" id="sidebar">
         <ul class="nav">
           <li class="nav-item">
-            <a class="nav-link" href="staff-profile.html" aria-expanded="false" aria-controls="form-elements">
+            <a class="nav-link" href="staff-profile.php" aria-expanded="false" aria-controls="form-elements">
               <i class="menu-icon mdi mdi-account-circle-outline"></i>
               <span class="menu-title">Profile</span>
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="staff-role-listing.html" aria-expanded="false" aria-controls="form-elements">
-              <i class="menu-icon mdi mdi-note-plus-outline"></i>
-              <span class="menu-title">Apply for Role</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="staff-my-applications.html">
-              <i class="mdi mdi-grid-large menu-icon"></i>
-              <span class="menu-title">Your Applications</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="HR-staff-list.html" aria-expanded="false" aria-controls="form-elements">
-              <i class="menu-icon mdi mdi-account-group"></i>
-              <span class="menu-title">Staff Members</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="HR-role-listings.html" aria-expanded="false" aria-controls="form-elements">
+            <a class="nav-link" href="staff-role-listings.php" aria-expanded="false" aria-controls="form-elements">
               <i class="menu-icon mdi mdi-card-text-outline"></i>
-              <span class="menu-title">View Role Listings</span>
+              <span class="menu-title">Role Listings</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="staff-my-applications.php">
+              <i class="mdi mdi-grid-large menu-icon"></i>
+              <span class="menu-title">Applications</span>
             </a>
           </li>
         </ul>
       </nav>
       
       <!-- MAIN PANEL -->
-
       <div class="main-panel">        
         <div class="content-wrapper">
           <div class="row">
           <br>
-            <h1>This is {{staff.StaffFirstName}}'s application for</h1>
+            <h1>You are applying for</h1>
         <br>
           <div class="col-md-12 grid-margin stretch-card">
               <div class="card">
@@ -121,25 +119,25 @@
                       <div class="table-responsive">
                         <table class="table">
                           <tr>
-                            <th>Role Title</th>
-                            <td>{{role.RoleName}}</td>
+                            <th>Job Title</th>
+                            <td>Social Media Manager</td>
                           </tr>
                           <tr>
                             <th>Department</th>
-                            <td>{{hiring_manager.Department}}</td>
+                            <td>Marketing</td>
                           </tr>
                           <tr>
-                            <th>Role Location</th>
-                            <td>{{hiring_manager.BusinessAddress}}</td>
+                            <th>Country</th>
+                            <td>Singapore</td>
                           </tr>
                           <tr>
-                            <th>Application Date</th>
-                            <td>{{appdate}}</td>
+                            <th>Post Date</th>
+                            <td>19/06/2023</td>
                           </tr>
-                          <!-- <tr>
+                          <tr>
                             <th>Career Level</th>
                             <td>Entry</td>
-                          </tr> -->
+                          </tr>
                         </table>
                       </div>
                     </div>
@@ -150,21 +148,37 @@
             <div class="col-md-12 grid-margin stretch-card">
               <div class="card">
                 <div class="card-body">
-                  <h4 class="card-title">Your Application</h4>
-
-                  <h6>Why do you want to apply for this role?</h6>
-                  <p>{{application.ReasonForApplication}}</p>
-                  <br>
-                  <!-- <h6>What softwares do you use to create content?</h6>
-                  <p>Canva, Adobe Creative Cloud, Buffer</p>
-                  <br>
-                  <h6>Given a $300 budget, how will you use it to increase social media outreach?</h6>
-                  <p>Analytics tools, engagement boost, content collaboration</p>
-                  <br>
-                  <h6>Do you have a social media page for us to look at?</h6>
-                  <p>Yes XXXXX</p>
-                  <br> -->
-                  
+                  <h4 class="card-title">Why do you want to take up this role?</h4>
+                  <form class="forms-sample">
+                    <div class="form-group">
+                      <label for="exampleInputUsername1"></label>
+                      <input type="text" class="form-control" id="exampleInputUsername1" v-model="reason_for_application">
+                    </div>
+                    <!-- <div class="form-group">
+                      <label for="exampleInputUsername1">Field1</label>
+                      <input type="text" class="form-control" id="exampleInputUsername1" placeholder="Field1">
+                    </div>
+                    <div class="form-group">
+                      <label for="exampleInputEmail1">Field2</label>
+                      <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Field2">
+                    </div>
+                    <div class="form-group">
+                      <label for="exampleInputPassword1">Field3</label>
+                      <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Field3">
+                    </div>
+                    <div class="form-group">
+                      <label for="exampleInputConfirmPassword1">Field4</label>
+                      <input type="password" class="form-control" id="exampleInputConfirmPassword1" placeholder="Field4">
+                    </div> -->
+                    <div class="form-check form-check-flat form-check-primary">
+                      <label class="form-check-label">
+                        <input type="checkbox" class="form-check-input">
+                        I confirm that all the information above are true to the best of my ability.
+                      </label>
+                    </div>
+                    <button type="submit" class="btn btn-primary me-2" @click="submitapplication()">Submit</button>
+                    <button class="btn btn-light">Cancel</button>
+                  </form>
                 </div>
               </div>
             </div>
@@ -172,11 +186,11 @@
           </div>
         </div>
       </div>
-
       <!-- main panel ends here -->
     </div>
   </div>
-</div
+
+</div>
 
   <!-- CUSTOM JS -->
   <script src="vendors/js/vendor.bundle.base.js"></script>
@@ -191,7 +205,8 @@
   <script src="js/jquery.cookie.js" type="text/javascript"></script>
   <script src="js/dashboard.js"></script>
   <script src="js/Chart.roundedBarCharts.js"></script>
-  <script src="vuejs/application_info.js"></script>
+
+  <script src="application_form.js"></script>
 </body>
 
 </html>

@@ -163,8 +163,10 @@
                           <td>{{info.hiring_manager.Department}}</td>
                           <td>{{info.hiring_manager.StaffFirstName}} {{info.hiring_manager.StaffLastName}}</td>
                           <td><p style="text-align:center;">{{info.no_of_applications}}</p>
-                            <p class="text-success" style="text-align:center;" v-if="info.is_open">Applications Open</p>
-                            <p class="text-danger" style="text-align:center;" v-else>Applications Closed</p></td>
+                            <p class="text-danger" style="text-align:center;" v-if="info.is_closed">Applications Closed</p>
+                            <p class="text-danger" style="text-align:center;" v-else-if="info.is_unopened">Applications Yet to Open</p>
+                            <p class="text-success" style="text-align:center;" v-else>Applications Open</p></td>
+                            
                           <td><button type="button" v-bind:name="info.role_listing.RoleListingID" onclick="location.href = 'HR-role-listing-info.html'; sessionStorage.setItem('role_listing_id', name)" class="btn btn-outline-primary btn-fw">View</button></td>
                         </tr>
                       </tbody>

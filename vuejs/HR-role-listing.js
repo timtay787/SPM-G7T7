@@ -73,17 +73,22 @@ const app = Vue.createApp({
                         var applications = result4.data.application
                         console.log(applications)
                     }
+                    else if (response4.status == 404){
+                        var applications = []
+                    }
                 }
                 catch (error) {
                     console.log('Error in processing the request.')
                 }
-                var is_open = (new Date(this.role_listings[i].RoleListingClose)).getTime() > (new Date().getTime())
+                var is_closed = (new Date(this.role_listings[i].RoleListingClose)).getTime() < (new Date().getTime())
+                var is_unopened = (new Date(this.role_listings[i].RoleListingOpen)).getTime() > (new Date().getTime())
                 this.role_listing_info.push({
                     'role_listing': this.role_listings[i],
                     'role': role,
                     'hiring_manager': hiring_manager,
                     'no_of_applications': applications.length,
-                    'is_open': is_open,
+                    'is_closed': is_closed,
+                    'is_unopened': is_unopened,
                 })
             }
 

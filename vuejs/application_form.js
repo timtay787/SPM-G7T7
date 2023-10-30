@@ -2,6 +2,7 @@
 const app = Vue.createApp({
     data() {
         return {
+            is_hr: sessionStorage.getItem('is_hr'),
             role_listing_id: sessionStorage.getItem('role_listing_id'),
             staff_id: sessionStorage.getItem('staff_id'),
             // role_listing_id: 3,

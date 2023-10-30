@@ -102,7 +102,7 @@ const app = Vue.createApp({
             }
 
             // Get secondary role info
-            var serviceURL5 = 'http://localhost:5000/staff/skillsofstaff/'+this.lookup_id;
+            var serviceURL5 = 'http://localhost:5000/staff/role/'+this.lookup_id;
             try {
                 const response5 =
                     await fetch(
@@ -110,7 +110,7 @@ const app = Vue.createApp({
                     );
                 const result5 = await response5.json();
                 if (response5.status == 200){
-                    var roles = result5.data.staff_skills
+                    var roles = result5.data.staff_roles
                 }
             }
             catch (error) {

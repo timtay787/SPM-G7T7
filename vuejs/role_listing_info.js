@@ -191,8 +191,12 @@ const app = Vue.createApp({
     },
 
     computed:{
-        is_open(){
-            return (new Date(this.role_listing.RoleListingClose)).getTime() > (new Date().getTime())
+        is_unopened(){
+            return (new Date(this.role_listing.RoleListingOpen)).getTime() > (new Date().getTime())
+        },
+
+        is_closed(){
+            return (new Date(this.role_listing.RoleListingClose)).getTime() < (new Date().getTime())
         }
     }
 

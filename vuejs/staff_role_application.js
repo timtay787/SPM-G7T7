@@ -4,8 +4,8 @@ const app = Vue.createApp({
         return {
             is_hr: sessionStorage.getItem('is_hr'),
             role_listing_id: sessionStorage.getItem('role_listing_id'),
-            applications: [],
             staff_id: sessionStorage.getItem('staff_id'),
+            applications: [],
             role_application: [],
         }
     },

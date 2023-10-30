@@ -218,9 +218,10 @@
             <div>
                 <h2>Skills Match : </h2>
                 <h2 class="text-success">{{skillsmatch}}%</h2>
+                <h4 v-if="is_closed">Applications for this role listing have been closed</h4>
+                <h4 v-else-if="is_unopened">Applications for this role listing have yet to open</h4>
+                <button type="button" class="btn btn-primary" onclick="location.href = 'role-listing-applicationform.html'"  v-else>Apply Now</button>
                 
-                <button type="button" class="btn btn-primary" onclick="location.href = 'role-listing-applicationform.html'"  v-if="is_open">Apply Now</button>
-                <h4 v-else>Applications for this role listing have been closed</h4>
             </div>
             </div>
 

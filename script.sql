@@ -60,6 +60,7 @@ constraint staff_roles_fk foreign key (Staff_ID) references staff_details(Staff_
 -- insert data into staff_roles table
 INSERT INTO Staff_DB.staff_roles VALUES
 (001, 002, "primary", "active"),
+(001, 014, "secondary", "active"),
 (002, 014, "primary", "active"),
 (003, 015, "primary", "active"),
 (004, 010, "primary", "active"),
@@ -94,6 +95,8 @@ INSERT INTO Staff_DB.staff_skill VALUES
 (001, 007, 'active'),
 (001, 008, 'active'),
 (001, 011, 'active'),
+(001, 009, 'unverified'),
+(001, 010, 'unverified'),
 (002, 001, 'active'),
 (002, 002, 'active'),
 (002, 003, 'active'),
@@ -245,7 +248,8 @@ INSERT INTO role_listing_DB.role_listings VALUES
 
 (001, 002, 'Responsibilities for this role include:', 006, '2023-09-01', '2024-02-01', 003, timestamp("2023-09-01"), 003, timestamp("2023-09-05")),
 (002, 014, 'Responsibilities for this role include:', 005, '2023-09-01', '2024-02-01', 003, timestamp("2023-09-01"), 003, timestamp("2023-09-02")),
-(003, 015, 'Responsibilities for this role include:', 008, '2023-09-01', '2023-10-08', 003, timestamp("2023-09-01"), 000, '');
+(003, 015, 'Responsibilities for this role include:', 008, '2023-09-01', '2023-10-08', 003, timestamp("2023-09-01"), 000, ''),
+(020, 002, 'Responsibilities for this role include:', 008, '2024-09-01', '2024-10-08', 003, timestamp("2023-09-01"), 000, '');
 
 -- create candidate table
 create table role_listing_DB.candidates

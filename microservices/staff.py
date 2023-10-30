@@ -175,7 +175,7 @@ def find_roles_by_staff_id(staff_id):
 
 # Retrieves staff's primary role based on staff_id
 @app.route("/staff/p_role/<int:staff_id>")
-def find_roles_by_staff_id(staff_id):
+def find_p_role_by_staff_id(staff_id):
     primary_role = Staff_Roles.query.filter_by(staff_id=staff_id, role_type="primary").first()
     if primary_role:
         return jsonify(

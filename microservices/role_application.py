@@ -141,15 +141,17 @@ def find_by_application_id(application_id):
         }
     ), 404
 
-# Retrieves a application based on staff_id
+# Retrieves every application based on staff_id
 @app.route("/role_application/staff/<int:staff_id>")
 def find_by_staff_id(staff_id):
-    application = Role_Application.query.filter_by(staff_id=staff_id).first()
-    if application:
+    applicationList = Role_Application.query.filter_by(staff_id=staff_id).all()
+    if len(applicationList):
         return jsonify(
             {
                 "code": 200,
-                "data": application.json()
+                "data":{
+                    "application": [application.json() for application in applicationList]
+                }
             }
         )
     return jsonify(

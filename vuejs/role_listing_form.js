@@ -4,7 +4,6 @@ const app = Vue.createApp({
         return {
             is_hr: sessionStorage.getItem('is_hr'),
             staff_id: sessionStorage.getItem('staff_id'),
-            role_listing_id: 4,
             role_id: 0,
             role_listing_desc: '',
             role_listing_source: 0,
@@ -12,6 +11,9 @@ const app = Vue.createApp({
             role_listing_close: '',
             role_listing_creator: 0,
             role_listing_updater: 0,
+
+            role_listing_id: sessionStorage.getItem('role_listing_id'),
+            new_listing_id: 0,
 
             roles : [],
             managers : [],
@@ -24,14 +26,16 @@ const app = Vue.createApp({
     methods: {
         async createlisting() {
             if (this.submission_error==false){
+                var role_listing_id = parseInt(this.role_id.toString() + this.role_listing_source.toString().padStart(3, '0'))
                 create_role_listing = {
-                    "role_listing_id" : this.role_listing_id,
+                    "role_listing_id" : role_listing_id,
                     "role_id" : this.role_id,
                     "role_listing_desc" : this.role_listing_desc,
                     "role_listing_source" : this.role_listing_source,
                     "role_listing_open" : this.role_listing_open,
                     "role_listing_close" : this.role_listing_close,
                     "role_listing_creator" : sessionStorage.getItem('staff_id'),
+                    // "role_listing_ts_create" : new Date().toISOString().slice(0, 10),
                     
                 }
                 console.log(create_role_listing)
@@ -45,16 +49,27 @@ const app = Vue.createApp({
                 const data = await result.json()
                 console.log(data)
 
-                if (data['message'] == "Role Listing created successfully") {
+                if (result.status == 201) {
                     this.outcome = 'Role listing created successfully. Please verify the listing in the Role Listing page.'
+                    sessionStorage.setItem('role_listing_id', role_listing_id)
+                    window.location.href = 'HR-listing-create-success.html'
+                }
+                else if (result.status == 400) {
+                    this.outcome = 'Role listing with the same role and hiring manager already exists.'
+                }
+                else {
+                    this.outcome = 'Role listing creation failed. Please try again.'
                 }
             }
         },
         
         async updatelisting() {
             if (this.submission_error==false){
+                var new_listing_id = parseInt(this.role_listing_id.toString().slice(0, -3) + this.role_listing_source.toString().padStart(3, '0'))
+                this.new_listing_id = new_listing_id
                 update_role_listing = {
-                    "role_listing_id" : sessionStorage.getItem('role_listing_id'),
+                    "role_listing_id" : parseInt(this.role_listing_id),
+                    "role_listing_id_new" : new_listing_id,
                     "role_listing_desc" : this.role_listing_desc,
                     "role_listing_source" : this.role_listing_source,
                     "role_listing_open" : this.role_listing_open,
@@ -73,8 +88,16 @@ const app = Vue.createApp({
                 const data = await result.json()
                 console.log(data)
 
-                if (data['message'] == "Role Listing updated successfully") {
+                if (result.status == 200) {
                     this.outcome = 'Role listing updated successfully. Please verify the listing in the Role Listing page.'
+                    sessionStorage.setItem('role_listing_id', new_listing_id)
+                    window.location.href = 'HR-listing-update-success.html'
+                }
+                else if (result.status == 405) {
+                    this.outcome = 'Role listing with the same role and hiring manager already exists.'
+                }
+                else {
+                    this.outcome = 'Role listing update failed. Please try again.'
                 }
             }
         }
@@ -84,7 +107,6 @@ const app = Vue.createApp({
         $(async()=>{
             console.log(this.role_id)
             var serviceURL1 = 'http://localhost:5001/role';
-
             try {
                 const response =
                     await fetch(
@@ -100,11 +122,8 @@ const app = Vue.createApp({
             catch (error) {
                 console.log('Error in processing the request.')
             }
-        })
 
-        $(async()=>{
             var serviceURL2 = 'http://localhost:5000/staff/manager';
-
             try {
                 const response2 =
                     await fetch(
@@ -121,6 +140,8 @@ const app = Vue.createApp({
                 console.log('Error in processing the request.')
             }
         })
+    },
+    computed: {
     }
 
 })

@@ -24,6 +24,26 @@
   <!-- JQuery-->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
+  <style>
+    #myInput {
+      background-image: url('/images/searchicon.png');
+      background-size: 25px;
+      background-position: 10px 10px;
+      background-repeat: no-repeat;
+      width: 100%;
+      font-size: 16px;
+      padding: 12px 20px 12px 40px;
+      border: 1px solid #ddd;
+      margin-bottom: 12px;
+    }
+  
+    #category_select {
+      color: darkslategray;
+      font-size: 16px;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+    </style>
 
 </head>
 
@@ -186,7 +206,7 @@
                     <h4>Role Description</h4>
                     <p>{{role.RoleDescription}}</p>
                     </br>
-                    <h4>Listing Description</h4>
+                    <h4>Role Requirements and Expectations</h4>
                     <p>{{role_listing.RoleListingDescription}}</p>
                     <!-- <h4>Responsibilities</h4>
                     <ul>
@@ -221,7 +241,25 @@
             <div class="col-lg-12 grid-margin stretch-card">
               <div class="card">
                 <div class="card-body">
-                  <h4 class="card-title">Applicants</h4>
+                  <div class="row">
+                    <div class="col-md-6"><h4 class="card-title">Applicants</h4></div>
+                    <div class="col-md-6">
+                      <div class ="row">
+                        <div class = col-md-4>
+                          <h4 class="card-title" style="text-align: right">Search for:</h4>
+                        </div>
+                        <div class = col-md-2>
+                          <select name="cars" id="category_select">
+                          <option value="0">Name</option>
+                          <option value="1">Department</option>
+                        </select>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  
+
+                  <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for names.." title="Type in a name">
                   <div class="table-responsive">
                     <table class="table table-striped">
                       <thead>
@@ -230,10 +268,10 @@
                             Profile Picture
                           </th> -->
                           <th>
-                            First Name
+                            Name
                           </th>
                           <th>
-                            Last Name
+                            Department
                           </th>
                           <th>
                             Email
@@ -247,11 +285,11 @@
 
                         </tr>
                       </thead>
-                      <tbody>
+                      <tbody id="myTable">
                         <tr v-for="staff_application of staff_applications">
                           <!-- <td class="py-1"><img src="images/faces/face2.jpg" alt="image"/></td> -->
-                          <td>{{staff_application.staff.StaffFirstName}}</td>
-                          <td>{{staff_application.staff.StaffLastName}}</td>
+                          <td>{{staff_application.staff.StaffFirstName}} {{staff_application.staff.StaffLastName}}</td>
+                          <td>{{staff_application.staff.Department}}</td>
                           <td>{{staff_application.staff.Email}}</td>
                           <td class="text-success">{{staff_application.match_rate}}%</td>
                           <td><button type="button" v-bind:name="staff_application.staff.StaffID" onclick="location.href = 'HR-staff-profile.html'; sessionStorage.setItem('staff_lookup_id', name)" class="btn btn-primary">View Profile</button><p> </p>
@@ -285,7 +323,27 @@
   </div>
 
 </div>
-
+<script>
+  function myFunction() {
+    var input, filter, table, tr, td, i, txtValue;
+    input = document.getElementById("myInput");
+    filter = input.value.toUpperCase();
+    table = document.getElementById("myTable");
+    tr = table.getElementsByTagName("tr");
+    category = document.getElementById("category_select").value;
+    for (i = 0; i < tr.length; i++) {
+      td = tr[i].getElementsByTagName("td")[category];
+      if (td) {
+        txtValue = td.textContent || td.innerText;
+        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+          tr[i].style.display = "";
+        } else {
+          tr[i].style.display = "none";
+        }
+      }       
+    }
+  }
+</script>
 
   <!-- CUSTOM JS -->
   <script src="vendors/js/vendor.bundle.base.js"></script>

@@ -111,10 +111,9 @@
                     <table class="table table-hover">
                       <thead>
                         <tr>
-                            <th>Application ID</th>
                             <th><h6>Role Title</h6></th>
-                            <!-- <th>Hiring Manager</th> -->
                             <th>Date of Application</th>
+                            <th>Hiring Manager</th>
                             <th>Status</th>
                             <th><th>
                         </tr>
@@ -123,9 +122,9 @@
                       <!-- start of table-->
                       <tbody v-for='application of role_application'>
                         <tr>
-                            <td>{{application.application.RoleApplicationID}}</td>
                             <td><h6>{{application.role.RoleName}}</h6></td>
-                            <td>{{application.date}}</td>
+                            <td>{{application.application.RoleApplicationID}}</td>
+                            <td>{{application.manager.StaffFirstName}} {{application.manager.StaffLastName}}</td>
                             <td style="text-transform:uppercase">{{application.application.RoleApplicationStatus}}</td>
                             <td><button type="button" v-bind:name="application.application.RoleApplicationID" onclick="location.href = 'staff-application.html'; sessionStorage.setItem('application_id', name)" class="btn btn-primary">View Application</button></td>
                         </tr>

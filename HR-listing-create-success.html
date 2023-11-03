@@ -24,8 +24,8 @@
   <!-- JQuery-->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
-  <!-- SessionStorage
-  <script src="setSessionStorage.js"></script> -->
+  <!-- SessionStorage -->
+  <!-- <script src="vuejs/setSessionStorage.js"></script> -->
 
 </head>
 
@@ -106,7 +106,7 @@
           <div class="row">
           <br>
             <h1>Congratulations!</h1>
-            <h2>You have successfully applied for:</h2>
+            <h2>You have successfully posted this listing:</h2>
         <br>
         <br>
           <div class="col-md-12 grid-margin stretch-card">
@@ -131,15 +131,15 @@
                           </tr>
                           <tr>
                             <th>Department</th>
-                            <td>{{hiring_manager.Department}}</td>
+                            <td>{{manager.Department}}</td>
                           </tr>
-                          <!--<tr>
-                            <th>Country</th>
-                            <td>Singapore</td>
-                          </tr>-->
                           <tr>
-                            <th>Application Date</th>
-                            <td>{{appDate}}</td>
+                            <th>Hiring Manager</th>
+                            <td>{{manager.StaffFirstName}} {{manager.StaffLastName}}</td>
+                          </tr>
+                          <tr>
+                            <th>Listing Post Date</th>
+                            <td>{{create_date}}</td>
                           </tr>
                           <!--<tr>
                             <th>Career Level</th>
@@ -148,7 +148,7 @@
                         </table>
                         <br>
                         <!--<button class="btn btn-success">Back to My Applications</button>-->
-                        <a href="/staff-my-applications.html" class="btn btn-success">Back to My Applications</a>
+                        <a href="/HR-role-listings.html" class="btn btn-success">Back to My Applications</a>
                       </div>
                     </div>
                   </div>
@@ -179,7 +179,7 @@
   <script src="js/dashboard.js"></script>
   <script src="js/Chart.roundedBarCharts.js"></script>
 
-  <script src="vuejs/application_form.js"></script>
+  <script src="vuejs/listing_confirm.js"></script>
 </body>
 
 </html>

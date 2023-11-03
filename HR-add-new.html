@@ -97,12 +97,16 @@
       </nav>
       
       <!-- MAIN PANEL -->
-
+      <div class="main-panel">        
+        <div class="content-wrapper">
+          <div class="row">
+          <br>
       <div class="col-md-12 grid-margin stretch-card">
               <div class="card">
                 <div class="card-body">
                   <h4 class="card-title">Add New Role Listing</h4>
-                  <form id="role_listing" class="forms-sample">
+                  <h5 class="text-danger" v-if="outcome != ''">{{outcome}}</h5>
+                  <form id="role_listing" class="forms-sample" onsubmit="return redirect()">
 
                     <div class="form-group">
                       <label for="role_id">Select the role you wish to recruit for:</label>
@@ -112,7 +116,7 @@
                     </div>
 
                     <div class="form-group">
-                      <label for="role_listing_desc">Please enter a brief description of this role:</label>
+                      <label for="role_listing_desc">Please enter a brief description of the requirements and expectations you have for this role.</label>
                       <input type="text" class="form-control" id="role_listing_desc" v-model="role_listing_desc">
                     </div>
                     
@@ -136,17 +140,27 @@
                         I confirm that all the information above are true to the best of my ability.
                       </label>
                     </div> -->
-                    <button type="submit" class="btn btn-primary me-2" @click="createlisting()">Confirm</button>
+                    <button type="submit" class="btn btn-primary me-2" @click="createlisting()"
+                    :disabled="role_id==0 || role_listing_desc =='' || role_listing_source==0 || role_listing_open==''
+                    || role_listing_close==''">Confirm</button>
                     <button class="btn btn-light">Cancel</button>
                   </form>
                 </div>
               </div>
             </div>
+          </div>
+        </div>
+      </div>
 
       <!-- main panel ends here -->
     </div>
   </div>
 </div>
+<script>
+  function redirect() {
+    return false;
+  }
+</script>
 
   <!-- CUSTOM JS -->
   <script src="vendors/js/vendor.bundle.base.js"></script>

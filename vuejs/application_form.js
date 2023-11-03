@@ -13,6 +13,8 @@ const app = Vue.createApp({
             role_listing: {},
             role: {},
             hiring_manager: {},
+            application: {},
+            appDate: '',
         }
     },
 
@@ -36,10 +38,18 @@ const app = Vue.createApp({
                 const data = await response.json()
                 console.log(data)
 
-                if (data['message'] == "Application created successfully.") {
+                if (response.status == 201) {
                     this.outcome = 'Application submitted successfully, please check your applications page to verify its status.'
+                    this.submission_error = false
+                    window.location.href = 'staff-application-success.html'
+                }
+                else {
+                    this.outcome = 'Application submission failed, please try again.'
+                    this.submission_error = true
                 }
             }
+
+            return false
         }
     },
     created(){
@@ -94,6 +104,33 @@ const app = Vue.createApp({
             catch (error) {
                 console.log('Error in processing the request.')
             } 
+
+            // Check if staff member has already applied for this role
+            var serviceURL4 = 'http://localhost:5004/role_application/staff/'+this.staff_id;
+            try {
+                const response4 =
+                    await fetch(
+                        serviceURL4, {method: 'GET'}
+                    );
+                const result4 = await response4.json();
+                if (response4.status == 200){
+                    var role_applications = result4.data.application
+                    for (var i=0; i<role_applications.length; i++){
+                        if (role_applications[i].RoleListingID == this.role_listing_id){
+                            this.outcome = 'You have already applied for this role.'
+                            this.submission_error = true
+                            this.application = role_applications[i]
+                        }
+                    }
+                }
+            }
+            catch (error) {
+                console.log('Error in processing the request.')
+            }
+            if (this.application != ''){
+                var Timestamp = new Date(this.application.RoleApplicationTimestampCreate)
+                this.appDate = Timestamp.getDate() + '/' + (Timestamp.getMonth()+1) + '/' + Timestamp.getFullYear()
+            }
             
         })
     }

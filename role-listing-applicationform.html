@@ -154,7 +154,8 @@
               <div class="card">
                 <div class="card-body">
                   <h4 class="card-title">Why do you want to take up this role?</h4>
-                  <form class="forms-sample">
+                  <form class="forms-sample" id="appform" onsubmit="return redirect()">
+                    <h5 class="text-danger" v-if="outcome != ''">{{outcome}}</h5>
                     <div class="form-group">
                       <label for="exampleInputUsername1"></label>
                       <input type="text" class="form-control" id="reason_for_application" v-model="reason_for_application">
@@ -181,7 +182,7 @@
                         I confirm that all the information above are true to the best of my ability.
                       </label>
                     </div> -->
-                    <button type="submit" class="btn btn-primary me-2" @click="submitapplication()">Submit</button>
+                    <button type="submit" id="submit-btn" class="btn btn-primary me-2" :disabled = "reason_for_application.length < 1 || outcome != ''"@click="submitapplication()">Submit</button>
                     <button class="btn btn-light">Cancel</button>
                   </form>
                 </div>
@@ -196,7 +197,11 @@
   </div>
 
 </div>
-
+  <script>
+    function redirect() {
+      return false;
+    }
+  </script>
   <!-- CUSTOM JS -->
   <script src="vendors/js/vendor.bundle.base.js"></script>
   <script src="vendors/chart.js/Chart.min.js"></script>

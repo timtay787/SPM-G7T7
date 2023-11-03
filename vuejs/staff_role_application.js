@@ -70,10 +70,27 @@ const app = Vue.createApp({
                 catch (error) {
                     console.log('Error in processing the request.')
                 }
+                
+                var serviceURL4 = 'http://localhost:5000/staff/'+role_listing.RoleListingSource;
+                try {
+                    const response4 =
+                        await fetch(
+                            serviceURL4, {method: 'GET'}
+                        );
+                    const result4 = await response4.json();
+                    if (response4.status == 200){
+                        var manager = result4.data
+                        console.log(manager)
+                        
+                    }
+                }
+                catch (error) {
+                    console.log('Error in processing the request.')
+                }
                 var Timestamp = new Date(this.applications[i].RoleApplicationTimestampCreate)
                 var appDate = Timestamp.getDate() + '/' + (Timestamp.getMonth()+1) + '/' + Timestamp.getFullYear()
 
-                this.role_application.push({'role': role, 'application': this.applications[i], 'date': appDate})
+                this.role_application.push({'role': role, 'manager':manager, 'application': this.applications[i], 'date': appDate})
             }
             console.log(role_application)
 

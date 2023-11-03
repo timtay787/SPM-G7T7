@@ -56,21 +56,6 @@ class Role_Listing(db.Model):
                 "RoleListingUpdater": self.role_listing_updater,
                 "RoleListingTimestampUpdate": self.role_listing_ts_update
                 }
-
-class Candidates(db.Model):
-    __tablename__ = 'candidates'
-    candidate_id = db.Column(db.Integer, primary_key= True)
-    role_listing_id = db.Column(db.Integer, primary_key= True)
-
-    def __init__(self, candidate_id, role_listing_id):
-        self.candidate_id = candidate_id
-        self.role_listing_id = role_listing_id
-    
-    def json(self):
-        return {"CandidateID": self.candidate_id,
-                "RoleListingID": self.role_listing_id
-                }
-    
 # Creates a new role_listing
 # Sample input:
 # {
@@ -85,9 +70,10 @@ class Candidates(db.Model):
 @app.route("/role_listing", methods=['POST'])
 def create_role_listing():
     data = request.get_json()
-    
-    role_listing = Role_Listing(data["role_listing_id"], data["role_id"], data["role_listing_desc"], data["role_listing_source"], data["role_listing_open"], data["role_listing_close"], data["role_listing_creator"], func.now(), 0, '')
-    role_listing_check = Role_Listing.query.filter_by(role_listing_id=data["role_listing_id"]).first()
+    current_datetime = datetime.now()
+    role_listing = Role_Listing(data["role_listing_id"], data["role_id"], data["role_listing_desc"], data["role_listing_source"], data["role_listing_open"], data["role_listing_close"], data["role_listing_creator"], current_datetime, 0, '')
+    #check if existing role listing has the same role_id and role_listing_source
+    role_listing_check = Role_Listing.query.filter_by(role_id=data["role_id"], role_listing_source=data["role_listing_source"] ).first()
     if role_listing_check:
         return jsonify(
             {
@@ -95,7 +81,7 @@ def create_role_listing():
                 "data": {
                     "role_listing": role_listing_check.json()
                 },
-                "message": "Role Listing already exists."
+                "message": "Role Listing with the same role and hiring manager already exists."
             }
         ), 400
     else:
@@ -139,31 +125,45 @@ def update_role_listing():
     listing_id = data['role_listing_id']
     role_listing = Role_Listing.query.filter_by(role_listing_id=listing_id).first()
     if role_listing:
-        try:
-            role_listing.role_listing_desc = data['role_listing_desc']
-            role_listing.role_listing_source = data['role_listing_source']
-            role_listing.role_listing_open = data['role_listing_open']
-            role_listing.role_listing_close = data['role_listing_close']
-            role_listing.role_listing_updater = data['role_listing_updater']
-            role_listing.role_listing_ts_update = current_datetime
-            db.session.commit()
-        except:
+        role_listing_check = Role_Listing.query.filter_by(role_listing_id=data["role_listing_id_new"]).first()
+        if role_listing_check and (role_listing.role_listing_id != data["role_listing_id_new"]):
             return jsonify(
                 {
-                    "code": 500,
+                    "code": 405,
                     "data": {
-                        "role_listing": role_listing.json()
+                        "listing_id": listing_id
                     },
-                    "message": "An error occurred updating the role_listing."
+                    "message": "Role Listing with the same role and hiring manager already exists."
                 }
-            ), 500
-        return jsonify(
-            {
-                "code": 200,
-                "data": role_listing.json(),
-                "message": "Role Listing updated successfully."
-            }
-        ), 200
+            ), 405
+        else:
+            try:
+                role_listing.role_listing_id = data['role_listing_id_new']
+                role_listing.role_listing_desc = data['role_listing_desc']
+                role_listing.role_listing_source = data['role_listing_source']
+                role_listing.role_listing_open = data['role_listing_open']
+                role_listing.role_listing_close = data['role_listing_close']
+                role_listing.role_listing_updater = data['role_listing_updater']
+                role_listing.role_listing_ts_update = current_datetime
+                db.session.commit()
+            except:
+                return jsonify(
+                    {
+                        "code": 500,
+                        "data": {
+                            "role_listing": role_listing.json()
+                        },
+                        "message": "An error occurred updating the role_listing."
+                    }
+                ), 500
+            return jsonify(
+                {
+                    "code": 200,
+                    "data": role_listing.json(),
+                    "message": "Role Listing updated successfully."
+                }
+            ), 200
+
     else:
         return jsonify(
             {
@@ -234,94 +234,6 @@ def find_by_role_id(role_id):
             "message": "Role Listing not found."
         }
     ), 404
-
-# Makes a staff member a candidate for a role listing
-# Sample Input:
-# {
-#     "candidate_id" : 1,
-#     "role_listing_id" : 1``
-# }
-@app.route("/role_listing/candidates", methods=['POST'])
-def create_candidate():
-    data = request.get_json()
-
-    candidate_id = data['candidate_id']
-    role_listing_id = data['role_listing_id']
-
-    if (Candidates.query.filter_by(candidate_id=candidate_id, role_listing_id=role_listing_id).first()):
-        return jsonify(
-            {
-                "code": 400,
-                "data": {
-                    "candidate_id": candidate_id,
-                    "role_listing_id": role_listing_id
-                },
-                "message": "Candidate already exists."
-            }
-        ), 400
-
-    candidate = Candidates(candidate_id, role_listing_id)
-
-    try:
-        db.session.add(candidate)
-        db.session.commit()
-    except:
-        return jsonify(
-            {
-                "code": 500,
-                "data": {
-                    "candidate_id": candidate_id,
-                    "role_listing_id": role_listing_id
-                },
-                "message": "An error occurred creating the candidate."
-            }
-        ), 500
-
-    return jsonify(
-        {
-            "code": 201,
-            "data": candidate.json()
-        }
-    ), 201
-
-# Retrieves candidates based on role_listing_id
-@app.route("/role_listing/candidates/<int:role_listing_id>")
-def find_by_role_listing_id(role_listing_id):
-    candidates = Candidates.query.filter_by(role_listing_id=role_listing_id).all()
-    if len(candidates):
-        return jsonify(
-            {
-                "code": 200,
-                "data": {
-                    "candidates": [candidate.json() for candidate in candidates]
-                }
-            }
-        )
-    return jsonify(
-        {
-            "code": 404,
-            "message": "Candidates not found."
-        }
-    ), 404
-
-# Retrieves a specific candidate based on candidate id and role_listing id
-@app.route("/role_listing/candidates/<int:role_listing_id>/<int:candidate_id>")
-def find_by_candidate_id(candidate_id, role_listing_id):
-    candidate = Candidates.query.filter_by(candidate_id=candidate_id, role_listing_id=role_listing_id).first()
-    if candidate:
-        return jsonify(
-            {
-                "code": 200,
-                "data": candidate.json()
-            }
-        )
-    return jsonify(
-        {
-            "code": 404,
-            "message": "Candidate not found."
-        }
-    ), 404
-
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0",port=5003,debug=True)

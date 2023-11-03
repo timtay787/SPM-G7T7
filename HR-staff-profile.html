@@ -201,12 +201,19 @@
                   <div class="template-demo">
                     <button type="button" class="btn btn-outline-primary btn-fw" v-for="skill in active_skills">{{skill.SkillName}}</button>
                   </div>
-                  <!-- staff.py : Retrieves skills that a staff has based on staff_id and status == inactive -->
+                  <!-- staff.py : Retrieves skills that a staff has based on staff_id and status == inprogress -->
                   <h1 class="card-title">   </h1>
                   <h1 class="card-title">   </h1>
-                  <h4 class="card-title">Unverified / In-Progress Skills</h4>
+                  <h4 class="card-title">In-Progress Skills</h4>
                   <div class="template-demo">
-                    <button type="button" class="btn btn-outline-primary btn-fw" v-for="skill in inactive_skills">{{skill.SkillName}}</button>
+                    <button type="button" class="btn btn-outline-primary btn-fw" v-for="skill in inprogress_skills">{{skill.SkillName}}</button>
+                  </div>
+                  <!-- staff.py : Retrieves skills that a staff has based on staff_id and status == unverified -->
+                  <h1 class="card-title">   </h1>
+                  <h1 class="card-title">   </h1>
+                  <h4 class="card-title">Unverified Skills</h4>
+                  <div class="template-demo">
+                    <button type="button" class="btn btn-outline-primary btn-fw" v-for="skill in unverified_skills">{{skill.SkillName}}</button>
                   </div>
                 </div>
               </div>

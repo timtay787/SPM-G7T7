@@ -10,7 +10,8 @@ const app = Vue.createApp({
             p_role: {},
             s_roles: [],
             active_skills : [],
-            inactive_skills : []      
+            inprogress_skills : [],   
+            unverified_skills : [], 
         }
     },
 
@@ -165,8 +166,11 @@ const app = Vue.createApp({
                         if (skills[i].Status == 'active'){
                             this.active_skills.push(skill)
                         }
+                        else if (skills[i].Status == 'unverified'){
+                            this.unverified_skills.push(skill)
+                        }
                         else{
-                            this.inactive_skills.push(skill)
+                            this.inprogress_skills.push(skill)
                         }
                     }
                 }

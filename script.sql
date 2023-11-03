@@ -96,7 +96,7 @@ INSERT INTO Staff_DB.staff_skill VALUES
 (001, 008, 'active'),
 (001, 011, 'active'),
 (001, 009, 'unverified'),
-(001, 010, 'unverified'),
+(001, 010, 'in-progress'),
 (002, 001, 'active'),
 (002, 002, 'active'),
 (002, 003, 'active'),
@@ -246,24 +246,10 @@ INSERT INTO role_listing_DB.role_listings VALUES
 -- (002, 014, 'Responsibilities for this role include:', 005, '2023-09-01', '2024-02-01', 003, timestamp("2023-09-01"), 'Malaysia', 'Entry', 003, timestamp("2023-09-02")),
 -- (003, 015, 'Responsibilities for this role include:', 008, '2023-09-01', '2024-02-01', 003, timestamp("2023-09-01"), 'Malaysia', 'Entry', 000, '');
 
-(001, 002, 'Responsibilities for this role include:', 006, '2023-09-01', '2024-02-01', 003, timestamp("2023-09-01"), 003, timestamp("2023-09-05")),
-(002, 014, 'Responsibilities for this role include:', 005, '2023-09-01', '2024-02-01', 003, timestamp("2023-09-01"), 003, timestamp("2023-09-02")),
-(003, 015, 'Responsibilities for this role include:', 008, '2023-09-01', '2023-10-08', 003, timestamp("2023-09-01"), 000, ''),
-(020, 002, 'Responsibilities for this role include:', 008, '2024-09-01', '2024-10-08', 003, timestamp("2023-09-01"), 000, '');
-
--- create candidate table
-create table role_listing_DB.candidates
-(candidate_id int not null,
-role_listing_id int not null,
-constraint candidate_pk primary key (candidate_id, role_listing_id),
-constraint candidate_fk foreign key (role_listing_id) references role_listings(Role_Listing_ID));
-
--- insert data into candidates table
-INSERT INTO role_listing_DB.candidates VALUES
-(001, 002),
-(002, 001),
-(003, 001);
-
+(2006, 002, 'Responsibilities for this role include:', 006, '2023-09-01', '2024-02-01', 003, timestamp("2023-09-01"), 003, timestamp("2023-09-05")),
+(14005, 014, 'Responsibilities for this role include:', 005, '2023-09-01', '2024-02-01', 003, timestamp("2023-09-01"), 003, timestamp("2023-09-02")),
+(15008, 015, 'Responsibilities for this role include:', 008, '2023-09-01', '2023-10-08', 003, timestamp("2023-09-01"), 000, ''),
+(2008, 002, 'Responsibilities for this role include:', 008, '2024-09-01', '2024-10-08', 003, timestamp("2023-09-01"), 000, '');
 
 -- create application_DB
 drop schema if exists application_DB;
@@ -295,6 +281,7 @@ reason_for_application varchar(50000));
 
 -- insert data into role_application table
 INSERT INTO application_DB.role_application VALUES
-(001, 002, 001, 'applied', timestamp("2023-09-27"), 'I am interested in this role because...'),
-(002, 001, 002, 'applied', timestamp("2023-09-27"), 'I am interested in this role because...'),
-(003, 001, 003, 'applied', timestamp("2023-09-27"), 'I am interested in this role because...');
+(001, 14005, 001, 'applied', timestamp("2023-09-27"), 'I am interested in this role because...'),
+(002, 2006, 002, 'applied', timestamp("2023-09-27"), 'I am interested in this role because...'),
+(003, 2006, 003, 'applied', timestamp("2023-09-27"), 'I am interested in this role because...'),
+(004, 2006, 001, 'applied', timestamp("2023-09-27"), 'I am interested in this role because...');

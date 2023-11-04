@@ -157,31 +157,6 @@ const app = Vue.createApp({
                 console.log('Error in processing the request.')
             }
 
-
-            // Get skill match for staff members
-            var serviceURL11 = 'http://localhost:5000/staff/skillsofstaff/'+this.staff_id;
-            try {
-                const response11 =
-                    await fetch(
-                        serviceURL11, {method: 'GET'}
-                    );
-                const result11 = await response11.json();
-                if (response11.status == 200){
-                    var staff_skills = result11.data.staff_skills
-                }
-            }
-            catch (error) {
-                console.log('Error in processing the request.')
-            }
-            var skill_match = 0
-            for (var j=0; j<staff_skills.length; j++){
-                for (var k=0; k<this.skills.length; k++){
-                    if (staff_skills[j].SkillID == this.skills[k].SkillID){
-                        skill_match += 1
-                    }
-                }
-            }
-
             //Get applications for role listing
             if (this.is_hr == 1){
                 console.log(this.hr_mode)
@@ -220,7 +195,7 @@ const app = Vue.createApp({
                         console.log('Error in processing the request.')
                     }
 
-                    var serviceURL10 = 'http://localhost:5000/staff/skillsofstaff/'+staffid;
+                    var serviceURL10 = 'http://localhost:5000/staff/activeskills/'+staffid;
                     try {
                         const response10 =
                             await fetch(

@@ -35,7 +35,7 @@ const app = Vue.createApp({
                 console.log('Error in processing the request.')
             }
 
-            var serviceURL6 = 'http://localhost:5000/staff/skillsofstaff/'+this.staff_id;
+            var serviceURL6 = 'http://localhost:5000/staff/activeskills/'+this.staff_id;
             try {
                 const response6 =
                     await fetch(

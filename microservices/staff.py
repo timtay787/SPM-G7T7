@@ -192,6 +192,26 @@ def find_p_role_by_staff_id(staff_id):
         }
     ), 404
 
+# Retrieves active skills a staff member has based on staff_id
+@app.route("/staff/activeskills/<int:staff_id>")
+def find_active_skills_by_staff_id(staff_id):
+    staff_skills = Staff_Skills.query.filter_by(staff_id=staff_id, ss_status="active").all()
+    if staff_skills:
+        return jsonify(
+            {
+                "code": 200,
+                "data": {
+                    "staff_skills": [staff_skill.json() for staff_skill in staff_skills]
+                }
+            }
+        )
+    return jsonify(
+        {
+            "code": 404,
+            "message": "Staff skills not found."
+        }
+    ), 404
+
 # Retrieves skills that a staff has based on staff_id
 @app.route("/staff/skillsofstaff/<int:staff_id>")
 def find_skills_by_staff_id(staff_id):

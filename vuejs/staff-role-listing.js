@@ -84,7 +84,7 @@ const app = Vue.createApp({
                 }
 
                 //Get skills of staff
-                var serviceURL5 = 'http://localhost:5000/staff/skillsofstaff/'+this.staff_id;
+                var serviceURL5 = 'http://localhost:5000/staff/activeskills/'+this.staff_id;
                 try {
                     const response5 =
                         await fetch(

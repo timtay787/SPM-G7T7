@@ -157,7 +157,7 @@ const app = Vue.createApp({
 
 
             // Get skill match for staff members
-            var serviceURL11 = 'http://localhost:5000/staff/skillsofstaff/'+this.staff_id;
+            var serviceURL11 = 'http://localhost:5000/staff/activeskills/'+this.staff_id;
             try {
                 const response11 =
                     await fetch(

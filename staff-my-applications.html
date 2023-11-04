@@ -112,10 +112,10 @@
                       <thead>
                         <tr>
                             <th><h6>Role Title</h6></th>
-                            <th>Date of Application</th>
                             <th>Hiring Manager</th>
+                            <th>Department</th>
+                            <th>Skills Match</th>
                             <th>Status</th>
-                            <th><th>
                         </tr>
                       </thead>
 
@@ -123,10 +123,16 @@
                       <tbody v-for='application of role_application'>
                         <tr>
                             <td><h6>{{application.role.RoleName}}</h6></td>
-                            <td>{{application.application.RoleApplicationID}}</td>
                             <td>{{application.manager.StaffFirstName}} {{application.manager.StaffLastName}}</td>
-                            <td style="text-transform:uppercase">{{application.application.RoleApplicationStatus}}</td>
-                            <td><button type="button" v-bind:name="application.application.RoleApplicationID" onclick="location.href = 'staff-application.html'; sessionStorage.setItem('application_id', name)" class="btn btn-primary">View Application</button></td>
+                            <td>{{application.manager.Department}}</td>
+                            <td>
+                              <div class="progress">
+                                <div class="progress-bar bg-success" role="progressbar" v-bind:style="{'width':application.skillsmatch + '%'}" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
+                              </div>
+                              <div class="text-success">{{application.skillsmatch}}%</div>
+                            </td>
+                            <td><h6 style="text-transform:uppercase">{{application.application.RoleApplicationStatus}}</h6>
+                            <button type="button" v-bind:name="application.application.RoleApplicationID" onclick="location.href = 'staff-application.html'; sessionStorage.setItem('application_id', name)" class="btn btn-primary">View Application</button></td>
                         </tr>
                       </tbody>
                     </table>

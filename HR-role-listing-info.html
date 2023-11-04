@@ -291,7 +291,12 @@
                           <td>{{staff_application.staff.StaffFirstName}} {{staff_application.staff.StaffLastName}}</td>
                           <td>{{staff_application.staff.Department}}</td>
                           <td>{{staff_application.staff.Email}}</td>
-                          <td class="text-success">{{staff_application.match_rate}}%</td>
+                          <td>
+                            <div class="progress">
+                              <div class="progress-bar bg-success" role="progressbar" v-bind:style="{'width':staff_application.match_rate + '%'}" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                            <div class="text-success">{{staff_application.match_rate}}%</div>
+                          </td>
                           <td><button type="button" v-bind:name="staff_application.staff.StaffID" onclick="location.href = 'HR-staff-profile.html'; sessionStorage.setItem('staff_lookup_id', name)" class="btn btn-primary">View Profile</button><p> </p>
                           <button type="button" v-bind:name="staff_application.application.RoleApplicationID" onclick="location.href = 'HR-application.html'; sessionStorage.setItem('application_id', name)" class="btn btn-primary">View Application</button></td>
                           <!-- <td>

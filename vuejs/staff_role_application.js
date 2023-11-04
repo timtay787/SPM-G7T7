@@ -7,6 +7,7 @@ const app = Vue.createApp({
             staff_id: sessionStorage.getItem('staff_id'),
             applications: [],
             role_application: [],
+            staff_skills: [],
         }
     },
 
@@ -34,6 +35,22 @@ const app = Vue.createApp({
                 console.log('Error in processing the request.')
             }
 
+            var serviceURL6 = 'http://localhost:5000/staff/skillsofstaff/'+this.staff_id;
+            try {
+                const response6 =
+                    await fetch(
+                        serviceURL6, {method: 'GET'}
+                    );
+                const result6 = await response6.json();
+                if (response6.status == 200){
+                    var staff_skills = result6.data.staff_skills
+                    console.log(staff_skills)
+                    this.staff_skills = staff_skills
+                }
+            }
+            catch (error) {
+                console.log('Error in processing the request.')
+            }
 
             // Get multiple role info from single application
             for(var i = 0; i < this.applications.length; i++){
@@ -87,12 +104,44 @@ const app = Vue.createApp({
                 catch (error) {
                     console.log('Error in processing the request.')
                 }
+
+                var serviceURL5 = 'http://localhost:5001/role/skill/'+role_listing.RoleID;
+                try {
+                    const response5 =
+                        await fetch(
+                            serviceURL5, {method: 'GET'}
+                        );
+                    const result5 = await response5.json();
+                    if (response5.status == 200){
+                        var skills = result5.data.role_skill
+                        console.log(skills)
+                    }
+                }
+                catch (error) {
+                    console.log('Error in processing the request.')
+                }
+
+                var skill_match = 0
+                for (var j=0; j<this.staff_skills.length; j++){
+                    for (var k=0; k<skills.length; k++){
+                        if (this.staff_skills[j].SkillID == skills[k].SkillID){
+                            skill_match += 1
+                        }
+                    }
+                }
+                console.log(skill_match)
+                if (skill_match == 0){
+                    var skillsmatch = 0
+                }
+                else{
+                    var skillsmatch = Math.floor((skill_match / skills.length) * 100) 
+                }
+
                 var Timestamp = new Date(this.applications[i].RoleApplicationTimestampCreate)
                 var appDate = Timestamp.getDate() + '/' + (Timestamp.getMonth()+1) + '/' + Timestamp.getFullYear()
 
-                this.role_application.push({'role': role, 'manager':manager, 'application': this.applications[i], 'date': appDate})
+                this.role_application.push({'role': role, 'manager':manager, 'application': this.applications[i], 'date': appDate, 'skillsmatch': skillsmatch})
             }
-            console.log(role_application)
 
         })
     },

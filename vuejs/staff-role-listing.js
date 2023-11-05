@@ -108,6 +108,10 @@ const app = Vue.createApp({
                         }
                     }
                 }
+                var is_closed = (new Date(this.role_listings[i].RoleListingClose)).getTime() < (new Date().getTime())
+                var is_unopened = (new Date(this.role_listings[i].RoleListingOpen)).getTime() > (new Date().getTime())
+                var is_open = !is_closed && !is_unopened
+
                 console.log(skill_match)
                 if (skill_match == 0){
                     var skillsmatch = 0
@@ -116,7 +120,7 @@ const app = Vue.createApp({
                     var skillsmatch = Math.floor((skill_match / skills.length) * 100) 
                 }
 
-                this.listing_info_list.push({'role_listing': this.role_listings[i],'role': role, 'manager': manager, 'skillsmatch': skillsmatch})
+                this.listing_info_list.push({'role_listing': this.role_listings[i],'role': role, 'manager': manager, 'skillsmatch': skillsmatch, 'is_open': is_open})
             }
         })
     },

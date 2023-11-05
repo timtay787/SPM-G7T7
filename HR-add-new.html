@@ -132,7 +132,7 @@
                     </div>
                     <div class="form-group">
                       <label for="role_listing_close">When should this role listing close?</label>
-                      <input type="date" v-bind:min="role_listing_open" class="form-control" id="role_listing_close" v-model="role_listing_close">
+                      <input type="date" v-bind:min="new Date(Math.max(new Date(current_date), new Date(role_listing_open))).toISOString().slice(0, 10)" class="form-control" id="role_listing_close" v-model="role_listing_close">
                     </div>
                     <!-- <div class="form-check form-check-flat form-check-primary">
                       <label class="form-check-label">

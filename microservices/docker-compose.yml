@@ -20,7 +20,7 @@ services:
     image: timtay/staff:0.1
     restart: always
     environment:
-      dbURL: mysql+mysqlconnector://sbrp@host.docker.internal:3306/staff_db
+      dbURL: mysql+mysqlconnector://sbrp@host.docker.internal:3306/sbrp_db
       PYTHONUNBUFFERED: 1
     ports:
       - "5000:5000"
@@ -35,7 +35,7 @@ services:
     image: timtay/role:0.1
     restart: always
     environment:
-      dbURL: mysql+mysqlconnector://sbrp@host.docker.internal:3306/role_db
+      dbURL: mysql+mysqlconnector://sbrp@host.docker.internal:3306/sbrp_db
       PYTHONUNBUFFERED: 1
     ports:
       - "5001:5001"
@@ -50,7 +50,7 @@ services:
     image: timtay/skill:0.1
     restart: always
     environment:
-      dbURL: mysql+mysqlconnector://sbrp@host.docker.internal:3306/skill_db
+      dbURL: mysql+mysqlconnector://sbrp@host.docker.internal:3306/sbrp_db
       PYTHONUNBUFFERED: 1
     ports:
       - "5002:5002"
@@ -65,7 +65,7 @@ services:
     image: timtay/role_listing:0.1
     restart: always
     environment:
-      dbURL: mysql+mysqlconnector://sbrp@host.docker.internal:3306/role_listing_db
+      dbURL: mysql+mysqlconnector://sbrp@host.docker.internal:3306/sbrp_db
       PYTHONUNBUFFERED: 1
     ports:
       - "5003:5003"
@@ -80,7 +80,7 @@ services:
     image: timtay/role_application:0.1
     restart: always
     environment:
-      dbURL: mysql+mysqlconnector://sbrp@host.docker.internal:3306/application_db
+      dbURL: mysql+mysqlconnector://sbrp@host.docker.internal:3306/sbrp_db
       PYTHONUNBUFFERED: 1
     ports:
       - "5004:5004"

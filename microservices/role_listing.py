@@ -7,7 +7,7 @@ from os import environ
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = environ.get('dbURL')
-# app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root@localhost:3306/role_listing_db'
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root@localhost:3306/sbrp_db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 CORS(app) 
@@ -71,7 +71,7 @@ class Role_Listing(db.Model):
 def create_role_listing():
     data = request.get_json()
     current_datetime = datetime.now()
-    role_listing = Role_Listing(data["role_listing_id"], data["role_id"], data["role_listing_desc"], data["role_listing_source"], data["role_listing_open"], data["role_listing_close"], data["role_listing_creator"], current_datetime, 0, '')
+    role_listing = Role_Listing(data["role_listing_id"], data["role_id"], data["role_listing_desc"], data["role_listing_source"], data["role_listing_open"], data["role_listing_close"], data["role_listing_creator"], current_datetime, None, None)
     #check if existing role listing has the same role_id and role_listing_source
     role_listing_check = Role_Listing.query.filter_by(role_id=data["role_id"], role_listing_source=data["role_listing_source"] ).first()
     if role_listing_check:

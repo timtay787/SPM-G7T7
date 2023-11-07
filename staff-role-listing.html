@@ -11,7 +11,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <title>All-In-One Connect</title>
+  <title>Skill-Based Role Portal</title>
 
   <!-- CUSTOM JS -->
   <link rel="icon" type="image/x-icon" href="/images/favicon.png">
@@ -82,8 +82,8 @@
       <!-- WELCOME ADMIN -->
         <ul class="navbar-nav">
           <li class="nav-item font-weight-semibold d-none d-lg-block ms-0">
-            <h1 class="welcome-text">Hello, <span class="text-black fw-bold"><?php echo $name?></span></h1>
-            <h3 class="welcome-sub-text">Welcome to All-In-One Connect.</h3>
+            <h1 class="welcome-text">Hello, <span class="text-black fw-bold"></span></h1>
+            <h3 class="welcome-sub-text">Welcome to All-In-One's Skill-Based Role Portal.</h3>
           </li>
         </ul>
       </div>
@@ -155,14 +155,14 @@
                     <table class="table table-striped">
                       <thead>
                         <tr>
-                          <th>Job Title</th>
+                          <th>Role Title</th>
                           <th>Department</th>
                           <th>Hiring Manager</th>
                           <th>Skills Match</th>
                           <th>Status</th>
                         </tr>
                       </thead>
-                      <tbody id="myTable" v-for = "listing in listing_info_list">
+                      <tbody id="myTable">
                         <!--<tr>
                           <td><h6>Social Media Manager</h6><p>Marketing</p></td>
                           <td>Julie Tan</td>
@@ -175,7 +175,7 @@
                           <td><button type="button" onclick="location.href = 'role-listing-info.php'" class="btn btn-success">Open</button></td>
                         </tr>-->
 
-                        <!-- <template v-for='role_listing_a in role_listing'> -->
+                        <template v-for = "listing in listing_info_list">
                         <!--v-for="(value, key, index) in myObject"-->
                         <tr v-if="listing.is_open == true">
                           <!-- the below I assume that in role, the RoleID will always be the index-1 -->
@@ -192,7 +192,7 @@
                           </td>
                           <td><button type="button" v-bind:name="listing.role_listing.RoleListingID" onclick="location.href = 'role-listing-info.html'; sessionStorage.setItem('role_listing_id', name)" class="btn btn-success">View Listing</button></td>
                         </tr>
-                      <!-- </template> -->
+                      </template>
                       </tbody>
                     </table>
                   </div>

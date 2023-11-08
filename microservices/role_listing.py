@@ -77,10 +77,10 @@ def create_role_listing():
     if role_listing_check:
         return jsonify(
             {
-                "code": 400,
-                "data": {
-                    "role_listing": role_listing_check.json()
-                },
+                # "code": 400,
+                # "data": {
+                #     "role_listing": role_listing_check.json()
+                # },
                 "message": "Role Listing with the same role and hiring manager already exists."
             }
         ), 400
@@ -91,17 +91,17 @@ def create_role_listing():
         except:
             return jsonify(
                 {
-                    "code": 500,
-                    "data": {
-                        "role_listing": role_listing.json()
-                    },
+                    # "code": 500,
+                    # "data": {
+                    #     "role_listing": role_listing.json()
+                    # },
                     "message": "An error occurred creating the role_listing."
                 }
             ), 500
         return jsonify(
             {
-                "code": 202,
-                "data": role_listing.json(),
+                # "code": 202,
+                # "data": role_listing.json(),
                 "message": "Role Listing created successfully."
             }
         ), 201

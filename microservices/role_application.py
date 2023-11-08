@@ -40,8 +40,9 @@ class Role_Application(db.Model):
     
 # Creates a new application
 # Sample imput:
-# {"role_listing_id": 3,
-# "staff_id": 4}  
+# {"role_listing_id": 2008,
+# "staff_id": 4,
+# "reason_for_application": "I am interested in this role."}  
 @app.route("/role_application", methods=['POST'])
 def create_application():
     data = request.get_json()
@@ -52,8 +53,8 @@ def create_application():
     if application_check:
         return jsonify(
             {
-                "code": 400,
-                "data": application_check.json(),
+                # "code": 400,
+                # "data": application_check.json(),
                 "message": "You have already applied for this role."
             }
         ), 400
@@ -64,44 +65,21 @@ def create_application():
         except:
             return jsonify(
                 {
-                    "code": 500,
-                    "data": {
-                        "application": application.json()
-                    },
+                    # "code": 500,
+                    # "data": {
+                    #     "application": application.json()
+                    # },
                     "message": "An error occurred creating the application."
                 }
             ), 500
         return jsonify(
             {
-                "code": 201,
-                "data": application.json(),
+                # "code": 201,
+                # "data": application.json(),
                 "message": "Application created successfully."
             }
         ), 201
 
-
-# Withdraws an application
-@app.route("/role_application/withdraw/<int:application_id>", methods=['PUT'])
-def withdraw_application(application_id):
-    application = Role_Application.query.filter_by(role_app_id=application_id).first()
-    if application:
-        application.role_app_status = "withdrawn"
-        db.session.commit()
-        return jsonify(
-            {
-                "code": 200,
-                "data": application.json()
-            }
-        )
-    return jsonify(
-        {
-            "code": 404,
-            "data": {
-                "application_id": application_id
-            },
-            "message": "Application not found."
-        }
-    ), 404
 
 # Retrieves every application in the database
 @app.route("/role_application")

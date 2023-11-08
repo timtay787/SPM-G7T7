@@ -7,7 +7,7 @@ const app = Vue.createApp({
             role_id: 0,
             role_listing_desc: '',
             role_listing_source: 0,
-            role_listing_open: '',
+            role_listing_open: new Date().toISOString().slice(0, 10),
             role_listing_close: '',
             role_listing_creator: 0,
             role_listing_updater: 0,

@@ -29,7 +29,6 @@ INSERT INTO SBRP_DB.staff_details VALUES
 (007, 'Tiffany', 'Yap', 'HR', 'tiffanyyap@gmail.com', '+65 1234 5684', '81 VICTORIA STREET, SINGAPORE 123462', 'manager'),
 (008, 'Daniel', 'Heng', 'IT', 'danielheng@gmail.com', '+65 1234 5685', '81 VICTORIA STREET, SINGAPORE 123463', 'manager');
 
-
 -- create role_details table
 create table SBRP_DB.role_details
 (Role_ID int not null primary key,
@@ -63,7 +62,6 @@ INSERT INTO SBRP_DB.role_details VALUES
 (021, 'Finance Director', '...', 'active'),
 (022, 'Information Technology Director', '...', 'active'),
 (023, 'Moral Support Professional', '...', 'inactive');
-
 
 -- create skill_details table
 create table SBRP_DB.skill_details
@@ -103,7 +101,6 @@ INSERT INTO SBRP_DB.staff_reporting_officer VALUES
 (003, 008),
 (004, 007);
 
-
 -- create staff_roles table
 create table SBRP_DB.staff_roles
 (Staff_ID int not null,
@@ -126,7 +123,6 @@ INSERT INTO SBRP_DB.staff_roles VALUES
 (006, 001, "primary", "active"),
 (007, 020, "primary", "active"),
 (008, 022, "primary", "active");
-
 
 -- create staff_skill table
 -- Note: I did not add a constraint for SS_Status because I'm assuming it's possible for a staff to have
@@ -168,9 +164,6 @@ INSERT INTO SBRP_DB.staff_skill VALUES
 (003, 005, 'active'),
 (003, 006, 'active'),
 (003, 011, 'active');
-
-
-
 
 -- create role_skill table
 create table SBRP_DB.role_skill
@@ -257,7 +250,6 @@ INSERT INTO SBRP_DB.role_skill VALUES
 (023, 008),
 (023, 011);
 
-
 -- create role_listing table
 -- Note: Role_Listing_Source = Hiring Manager
 -- Note: Country and Career_Level are not required by the technical_doc, I added them because they were
@@ -292,7 +284,6 @@ INSERT INTO SBRP_DB.role_listings VALUES
 (14005, 014, 'Responsibilities for this role include:', 005, '2023-09-01', '2024-02-01', 003, timestamp("2023-09-01"), 003, timestamp("2023-09-02")),
 (15008, 015, 'Responsibilities for this role include:', 008, '2023-09-01', '2023-10-08', 003, timestamp("2023-09-01"), null, null),
 (2008, 002, 'Responsibilities for this role include:', 008, '2024-09-01', '2024-10-08', 003, timestamp("2023-09-01"), null, null);
-
 
 -- -- create application table
 -- create table application_DB.role_application
